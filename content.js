@@ -61,7 +61,7 @@ async function fillTM30Form(person) {
         { name: 'Birth Month', val: m, selectors: ['input[formcontrolname="monthOfBirth"]'] },
         { name: 'Birth Year', val: y, selectors: ['input[formcontrolname="yearOfBirth"]'] },
         { name: 'Phone No.', val: person.phoneNo, selectors: ['input[formcontrolname="phoneNo"]'] },
-        { name: 'Number of Nights', val: person.numberOfNights, selectors: ['input[formcontrolname="nightOfStay"]'] }
+        { name: 'Number of Nights', val: person.nights, selectors: ['input[formcontrolname="nightOfStay"]'] }
     ];
 
     // 1. Fill all standard fields at once
@@ -89,8 +89,12 @@ async function fillTM30Form(person) {
     ]);
     if (nationEl) {
         console.log('TM30 Helper: Filling Nationality');
-        const searchValue = person.nationalityCode || person.nationality;
-        await setAutocompleteValue(nationEl, searchValue);
+        const searchValue = person.nationalityCode;
+        if (searchValue) {
+            await setAutocompleteValue(nationEl, searchValue);
+        } else {
+            console.warn('TM30 Helper: No nationalityCode provided!');
+        }
     } else {
         console.warn('TM30 Helper: Nationality field not found!');
     }
