@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.0] - 2025-12-19
+
+### Added
+- Thai language support for the entire interface
+- Language selector in options page header
+- Internationalization (i18n) module for translations
+
 ## [1.0.0] - 2025-12-19
 
 ### Added

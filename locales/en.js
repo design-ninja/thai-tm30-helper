@@ -1,0 +1,39 @@
+// English translations
+const LOCALE_EN = {
+    // Options page
+    "options.title": "Thai TM-30 Helper - Manage Profiles",
+    "options.header": "Thai TM-30 Helper",
+    "options.subtitle": "Save profiles to auto-fill TM30 forms instantly",
+    "options.formTitle.add": "Add New Person",
+    "options.formTitle.edit": "Edit Profile",
+    "options.label.firstName": "First Name",
+    "options.label.lastName": "Last Name",
+    "options.label.passportNo": "Passport Number",
+    "options.label.nationality": "Nationality",
+    "options.label.gender": "Gender",
+    "options.label.birthDate": "Birth Date",
+    "options.label.phoneNo": "Phone Number",
+    "options.label.numberOfNights": "Number of Nights",
+    "options.gender.male": "Male",
+    "options.gender.female": "Female",
+    "options.btn.save": "Save Profile",
+    "options.btn.update": "Update Profile",
+    "options.btn.cancel": "Cancel",
+    "options.btn.edit": "Edit",
+    "options.btn.delete": "Delete",
+    "options.savedProfiles": "Saved Profiles",
+    "options.emptyState": "No profiles saved yet. Add your first person above.",
+    "options.noNationality": "No nationality found",
+    "options.alert.birthDateFormat": "Please enter birth date in DD/MM/YYYY format",
+    "options.alert.selectNationality": "Please select a nationality from the list",
+    "options.confirm.delete": "Are you sure you want to delete this profile?",
+    "options.language": "Language",
+
+    // Popup
+    "popup.header": "Thai TM-30 Helper",
+    "popup.manageProfiles": "Manage Profiles",
+    "popup.emptyState": "No saved profiles found.",
+    "popup.emptyStateHint": "Add them in settings first.",
+    "popup.editProfile": "Edit Profile",
+    "popup.error.refresh": "Error: Please refresh the TM30 form page to enable the extension."
+};

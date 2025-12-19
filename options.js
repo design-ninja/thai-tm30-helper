@@ -1,9 +1,24 @@
 document.addEventListener('DOMContentLoaded', async () => {
+    // Initialize i18n
+    await I18n.init();
+
     const form = document.getElementById('person-form');
     const personList = document.getElementById('person-list');
     const personIdInput = document.getElementById('personId');
     const submitBtn = document.getElementById('submit-btn');
     const cancelEditBtn = document.getElementById('cancel-edit');
+    const formTitle = document.getElementById('form-title');
+
+    // Update form state based on edit mode
+    const updateFormState = () => {
+        if (personIdInput.value) {
+            formTitle.textContent = I18n.t('options.formTitle.edit');
+            submitBtn.textContent = I18n.t('options.btn.update');
+        } else {
+            formTitle.textContent = I18n.t('options.formTitle.add');
+            submitBtn.textContent = I18n.t('options.btn.save');
+        }
+    };
 
     // XSS protection
     const escapeHtml = (text) => {
@@ -49,7 +64,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (results.length === 0) {
             const empty = document.createElement('div');
             empty.className = 'Options__AutocompleteEmpty';
-            empty.textContent = 'No nationality found';
+            empty.textContent = I18n.t('options.noNationality');
             nationalityDropdown.appendChild(empty);
             return;
         }
@@ -176,8 +191,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             document.getElementById('phoneNo').value = person.phoneNo || '';
             document.getElementById('numberOfNights').value = person.numberOfNights || '';
 
-            document.getElementById('form-title').innerText = 'Edit Profile';
-            submitBtn.innerText = 'Update Profile';
+            formTitle.textContent = I18n.t('options.formTitle.edit');
+            submitBtn.textContent = I18n.t('options.btn.update');
             cancelEditBtn.style.display = 'inline-block';
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -187,14 +202,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         form.reset();
         personIdInput.value = '';
         nationalityCodeInput.value = '';
-        document.getElementById('form-title').innerText = 'Add New Person';
-        submitBtn.innerText = 'Save Profile';
+        formTitle.textContent = I18n.t('options.formTitle.add');
+        submitBtn.textContent = I18n.t('options.btn.save');
         cancelEditBtn.style.display = 'none';
     };
 
     // Delete person
     const deletePerson = async (id) => {
-        if (!confirm('Are you sure you want to delete this profile?')) return;
+        if (!confirm(I18n.t('options.confirm.delete'))) return;
         await Storage.deletePerson(id);
         loadPersons();
     };
@@ -202,7 +217,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Render list of persons with XSS protection
     const renderPersons = (persons) => {
         if (persons.length === 0) {
-            personList.innerHTML = '<p class="EmptyState">No profiles saved yet. Add your first person above.</p>';
+            personList.innerHTML = `<p class="EmptyState">${I18n.t('options.emptyState')}</p>`;
             return;
         }
 
@@ -228,12 +243,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             const editBtn = document.createElement('button');
             editBtn.className = 'Options__BtnEdit';
-            editBtn.textContent = 'Edit';
+            editBtn.textContent = I18n.t('options.btn.edit');
             editBtn.addEventListener('click', () => editPerson(person.id));
 
             const deleteBtn = document.createElement('button');
             deleteBtn.className = 'Options__BtnDelete';
-            deleteBtn.textContent = 'Delete';
+            deleteBtn.textContent = I18n.t('options.btn.delete');
             deleteBtn.addEventListener('click', () => deletePerson(person.id));
 
             actions.appendChild(editBtn);
@@ -253,13 +268,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         const birthDateRegex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
 
         if (!birthDateRegex.test(birthDate)) {
-            alert('Please enter birth date in DD/MM/YYYY format');
+            alert(I18n.t('options.alert.birthDateFormat'));
             return;
         }
 
         // Validate nationality selection
         if (!nationalityCodeInput.value) {
-            alert('Please select a nationality from the list');
+            alert(I18n.t('options.alert.selectNationality'));
             nationalityInput.focus();
             return;
         }

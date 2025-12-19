@@ -1,12 +1,37 @@
 document.addEventListener('DOMContentLoaded', async () => {
+    // Initialize i18n
+    await I18n.init();
+
     const personList = document.getElementById('person-list');
     const openOptions = document.getElementById('open-options');
+    const langEnBtn = document.getElementById('lang-en');
+    const langThBtn = document.getElementById('lang-th');
+
+    // Update language toggle active state
+    const updateLangToggle = () => {
+        langEnBtn.classList.toggle('Popup__LangBtn_active', I18n.currentLanguage === 'en');
+        langThBtn.classList.toggle('Popup__LangBtn_active', I18n.currentLanguage === 'th');
+    };
+    updateLangToggle();
+
+    // Language toggle handlers
+    langEnBtn.addEventListener('click', async () => {
+        await I18n.setLanguage('en');
+        updateLangToggle();
+        location.reload();
+    });
+
+    langThBtn.addEventListener('click', async () => {
+        await I18n.setLanguage('th');
+        updateLangToggle();
+        location.reload();
+    });
 
     // Load persons for selection
     const persons = await Storage.getPersons();
 
     if (persons.length === 0) {
-        personList.innerHTML = '<div class="EmptyState">No saved profiles found.<br>Add them in settings first.</div>';
+        personList.innerHTML = `<div class="EmptyState">${I18n.t('popup.emptyState')}<br>${I18n.t('popup.emptyStateHint')}</div>`;
     } else {
         persons.forEach(person => {
             const item = document.createElement('div');
@@ -34,7 +59,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             const editBtn = document.createElement('button');
             editBtn.className = 'Popup__BtnEdit';
-            editBtn.title = 'Edit Profile';
+            editBtn.title = I18n.t('popup.editProfile');
             editBtn.textContent = '✏️';
             editBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -53,7 +78,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (tabs[0]) {
                 chrome.tabs.sendMessage(tabs[0].id, { action: 'FILL_FORM', person }, (response) => {
                     if (chrome.runtime.lastError) {
-                        alert('Error: Please refresh the TM30 form page to enable the extension.');
+                        alert(I18n.t('popup.error.refresh'));
                         console.error(chrome.runtime.lastError);
                     }
                 });
