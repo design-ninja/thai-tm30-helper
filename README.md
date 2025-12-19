@@ -7,26 +7,38 @@
 - **Profile Management:** Store multiple family members or recurring guests for quick access.
 - **Instant Auto-fill:** Single-click injection into the official TM30 web forms.
 - **Smart Mapping:** Automatically handles complex fields like Nationalities, Gender, and Dates.
-- **Modern UI:** Clean, intuitive interface using Google Sans typeography and a prioritized workflow.
+- **Modern UI:** Clean, intuitive interface with a prioritized workflow.
 - **Privacy First:** All data is stored locally in your browser's storage. Nothing is sent to external servers or cloud services.
 
-## 🚀 Installation (Manual)
+## 🚀 Installation
 
-Since this is an open-source project, you can load it as an "unpacked" extension:
-
-1.  **Download/Clone** this repository to your local machine.
-2.  Open Chrome and navigate to `chrome://extensions/`.
-3.  Enable **Developer mode** (toggle in the top right corner).
-4.  Click **Load unpacked** and select the folder containing this extension's files.
+1. Visit the [Chrome Web Store](https://chrome.google.com/webstore) and search for **Thai TM30 Helper**.
+2. Click **Add to Chrome**.
+3. Confirm by clicking **Add extension** in the popup.
+4. (Optional) Pin the extension: click the puzzle icon (🧩) in the toolbar, then click the pin icon next to **Thai TM30 Helper**.
 
 ## 📖 How to Use
 
-1.  **Add Profiles:** Click on the extension icon and select **Manage Profiles** (or go to the extension options). Add the details for the travelers you frequently report.
-2.  **Navigate to TM30 Site:** Open the official [Thai Immigration TM30 Portal](https://tm30.immigration.go.th/).
-3.  **Login and Fill:** Once you are on the "Notification of Residence" form page:
-    - Click the extension icon.
-    - Click on the person you wish to report.
-    - Watch as the form is instantly populated.
+### 1. Add Profiles
+
+Click on the extension icon and select **Manage Profiles** (or go to the extension options). Add the details for the travelers you frequently report.
+
+### 2. Fill Out the TM30 Form
+
+1. Navigate to the [TM30 Search Page](https://tm30.immigration.go.th/tm30/#/external/ifa/search).
+2. Click the **+ Add** button to open a new TM30 application form.
+3. Click on the extension icon in your browser toolbar.
+4. Select the profile of the person you want to report. If no profiles are available, see Step 1.
+5. The form will be auto-filled with the selected profile data.
+6. **Important:** Carefully review all auto-filled data, complete any remaining fields manually, and click **Save**.
+
+### 3. Verify Your Submission
+
+1. Return to the [TM30 Search Page](https://tm30.immigration.go.th/tm30/#/external/ifa/search).
+2. Click the **Search** button.
+3. If successful, your TM30 submissions will appear in the table below.
+4. Click the magnifying glass icon (🔍) on the desired row to view the details.
+5. Click **Export** to download the PDF.
 
 ## 🔒 Privacy & Security
 
@@ -40,7 +52,6 @@ We take privacy seriously. This extension:
 
 - **Manifest V3** (Latest Chrome Extension Standard)
 - **Vanilla JavaScript/HTML/CSS**
-- **Google Sans Variable Font**
 
 ## 📄 License
 

@@ -5,6 +5,7 @@
     --primary-hover: #1557b0;
     --primary-light: #e0f2fe;
     --primary-light-hover: #bae6fd;
+    --heading: #051539;
     --bg: #f8fafc;
     --card-bg: #ffffff;
     --text: #1e293b;
@@ -56,7 +57,7 @@ body.Popup {
 .Popup__Header {
     font-size: 1.2rem;
     margin: 0 0 16px 0;
-    color: var(--primary);
+    color: var(--heading);
     display: flex;
     align-items: center;
     gap: 8px;
@@ -176,7 +177,7 @@ body.Options {
 .Options__Title {
     font-weight: 600;
     letter-spacing: -0.025em;
-    color: var(--primary);
+    color: var(--heading);
     margin-bottom: 8px;
 }
 
