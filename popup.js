@@ -6,29 +6,29 @@ document.addEventListener('DOMContentLoaded', () => {
     chrome.storage.local.get(['persons'], (result) => {
         const persons = result.persons || [];
         if (persons.length === 0) {
-            personList.innerHTML = '<div class="empty">No saved profiles found.<br>Add them in settings first.</div>';
+            personList.innerHTML = '<div class="Popup__Empty">No saved profiles found.<br>Add them in settings first.</div>';
             return;
         }
 
         persons.forEach(person => {
             const item = document.createElement('div');
-            item.className = 'person-item';
+            item.className = 'Popup__PersonItem';
             item.innerHTML = `
-                <div class="person-info">
-                    <span class="name">${person.firstName} ${person.lastName}</span>
-                    <span class="details">${person.passportNo} | ${person.nationality}</span>
+                <div class="Popup__PersonInfo">
+                    <span class="Popup__PersonName">${person.firstName} ${person.lastName}</span>
+                    <span class="Popup__PersonDetails">${person.passportNo} | ${person.nationality}</span>
                 </div>
-                <button class="btn-edit-popup" title="Edit Profile">✏️</button>
+                <button class="Popup__BtnEdit" title="Edit Profile">✏️</button>
             `;
 
             // Click on info area to fill form
-            item.querySelector('.person-info').addEventListener('click', () => {
+            item.querySelector('.Popup__PersonInfo').addEventListener('click', () => {
                 fillForm(person);
                 window.close();
             });
 
             // Click on edit icon to open options in edit mode
-            item.querySelector('.btn-edit-popup').addEventListener('click', (e) => {
+            item.querySelector('.Popup__BtnEdit').addEventListener('click', (e) => {
                 e.stopPropagation();
                 chrome.tabs.create({ url: `options.html?edit=${person.id}` });
             });

@@ -1,0 +1,352 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400..700&display=swap');
+
+:root {
+    --primary: #1a73e7;
+    --primary-hover: #1557b0;
+    --primary-light: #e0f2fe;
+    --primary-light-hover: #bae6fd;
+    --bg: #f8fafc;
+    --card-bg: #ffffff;
+    --text: #1e293b;
+    --text-light: #64748b;
+    --border: #e2e8f0;
+    --border-dashed: #cbd5e1;
+    --radius: 8px;
+    --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --danger: #ef4444;
+    --danger-bg: #fee2e2;
+    --danger-bg-hover: #fecaca;
+    --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: inherit;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+}
+
+/* ============================================
+   POPUP STYLES
+   ============================================ */
+
+body.Popup {
+    width: 320px;
+    padding: 16px;
+}
+
+.Popup__Header {
+    font-size: 1.2rem;
+    margin: 0 0 16px 0;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+}
+
+.Popup__HeaderIcon {
+    width: 24px;
+    height: 24px;
+}
+
+.Popup__PersonItem {
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 8px;
+    cursor: pointer;
+    background: var(--card-bg);
+    transition: all 0.2s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+.Popup__PersonItem:hover {
+    background: #f0f7ff;
+}
+
+.Popup__PersonInfo {
+    flex-grow: 1;
+}
+
+.Popup__PersonName {
+    font-weight: 600;
+    display: block;
+    color: var(--text);
+    font-size: 0.95rem;
+    margin-bottom: 4px;
+}
+
+.Popup__PersonDetails {
+    font-size: 0.75rem;
+    color: var(--text-light);
+}
+
+.Popup__BtnEdit {
+    padding: 6px;
+    border-radius: 4px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    opacity: 0.4;
+    transition: all 0.2s;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Popup__BtnEdit:hover {
+    background: #f0f7ff;
+    opacity: 1;
+    color: var(--primary);
+}
+
+.Popup__Footer {
+    margin-top: 12px;
+    padding-top: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.Popup__BtnManage {
+    background: var(--primary-light);
+    color: var(--primary);
+    border: none;
+    padding: 15px 20px;
+    border-radius: var(--radius);
+    font-weight: 500;
+    font-size: 0.9rem;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.2s;
+}
+
+.Popup__BtnManage:hover {
+    background: var(--primary-light-hover);
+}
+
+.Popup__Empty {
+    text-align: center;
+    color: var(--text-light);
+    font-size: 0.9rem;
+    padding: 20px 10px;
+    background: var(--card-bg);
+    border: 1px dashed var(--border-dashed);
+    border-radius: var(--radius);
+}
+
+/* ============================================
+   OPTIONS PAGE STYLES
+   ============================================ */
+
+body.Options {
+    padding: 40px 20px;
+}
+
+.Options__Container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.Options__Header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.Options__HeaderIcon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 16px;
+}
+
+.Options__Title {
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    color: var(--primary);
+    margin-bottom: 8px;
+}
+
+.Options__Subtitle {
+    color: var(--text-light);
+    font-size: 1.1rem;
+}
+
+.Options__Section {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 32px;
+    box-shadow: var(--shadow);
+    margin-bottom: 32px;
+}
+
+.Options__SectionTitle {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 24px;
+    padding-bottom: 0;
+}
+
+.Options__FormGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+.Options__FormGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.Options__FormGroup_fullWidth {
+    grid-column: span 2;
+}
+
+.Options__Label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-light);
+}
+
+.Options__Label .required {
+    color: var(--danger);
+}
+
+.Options__Input,
+.Options__Select {
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 1rem;
+    transition: all 0.2s;
+}
+
+.Options__Input:focus,
+.Options__Select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(26, 115, 231, 0.1);
+}
+
+.Options__FormActions {
+    display: flex;
+    gap: 12px;
+}
+
+.Options__BtnPrimary {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 13px 32px;
+    border-radius: var(--radius);
+    font-weight: 500;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    width: auto;
+    min-width: 160px;
+}
+
+.Options__BtnPrimary:hover {
+    background: var(--primary-hover);
+}
+
+.Options__BtnSecondary {
+    background: var(--border);
+    color: var(--text);
+    border: none;
+    padding: 13px 32px;
+    border-radius: var(--radius);
+    font-weight: 500;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.Options__BtnSecondary:hover {
+    background: var(--border-dashed);
+}
+
+.Options__PersonList {
+    display: grid;
+    gap: 12px;
+}
+
+.Options__PersonCard {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: background 0.2s;
+    cursor: default;
+}
+
+.Options__PersonInfo h3 {
+    font-size: 1rem;
+    margin-bottom: 4px;
+    font-weight: 600;
+}
+
+.Options__PersonInfo p {
+    font-size: 0.875rem;
+    color: var(--text-light);
+}
+
+.Options__PersonActions {
+    display: flex;
+    gap: 8px;
+}
+
+.Options__BtnEdit {
+    background: var(--primary-light);
+    color: #0369a1;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.Options__BtnEdit:hover {
+    background: var(--primary-light-hover);
+}
+
+.Options__BtnDelete {
+    background: var(--danger-bg);
+    color: var(--danger);
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.Options__BtnDelete:hover {
+    background: var(--danger-bg-hover);
+}
+
+.Options__EmptyMsg {
+    text-align: center;
+    color: var(--text-light);
+    font-size: 0.9rem;
+    padding: 20px 10px;
+    background: var(--card-bg);
+    border: 1px dashed var(--border-dashed);
+    border-radius: var(--radius);
+}

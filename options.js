@@ -83,36 +83,36 @@ document.addEventListener('DOMContentLoaded', () => {
     // Render list of persons
     const renderPersons = (persons) => {
         if (persons.length === 0) {
-            personList.innerHTML = '<p class="empty-msg">No profiles saved yet. Add your first person above.</p>';
+            personList.innerHTML = '<p class="Options__EmptyMsg">No profiles saved yet. Add your first person above.</p>';
             return;
         }
 
         personList.innerHTML = '';
         persons.forEach(person => {
             const card = document.createElement('div');
-            card.className = 'person-card';
+            card.className = 'Options__PersonCard';
             card.innerHTML = `
-                <div class="person-info">
+                <div class="Options__PersonInfo">
                     <h3>${person.firstName} ${person.lastName}</h3>
                     <p>Passport: ${person.passportNo} | Nationality: ${person.nationality}</p>
                 </div>
-                <div class="person-actions">
-                    <button class="btn-edit" data-id="${person.id}">Edit</button>
-                    <button class="btn-delete" data-id="${person.id}">Delete</button>
+                <div class="Options__PersonActions">
+                    <button class="Options__BtnEdit" data-id="${person.id}">Edit</button>
+                    <button class="Options__BtnDelete" data-id="${person.id}">Delete</button>
                 </div>
             `;
             personList.appendChild(card);
         });
 
         // Event listeners
-        document.querySelectorAll('.btn-edit').forEach(btn => {
+        document.querySelectorAll('.Options__BtnEdit').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const id = parseInt(e.target.getAttribute('data-id'));
                 editPerson(id);
             });
         });
 
-        document.querySelectorAll('.btn-delete').forEach(btn => {
+        document.querySelectorAll('.Options__BtnDelete').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const id = parseInt(e.target.getAttribute('data-id'));
                 deletePerson(id);
