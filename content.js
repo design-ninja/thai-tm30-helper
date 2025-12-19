@@ -98,7 +98,9 @@ async function fillTM30Form(person) {
     ]);
     if (nationEl) {
         console.log('TM30 Helper: Final step - Nationality');
-        await setAutocompleteValue(nationEl, person.nationality);
+        // Use the 3-letter code for reliable matching
+        const searchValue = person.nationalityCode || person.nationality;
+        await setAutocompleteValue(nationEl, searchValue);
     } else {
         console.warn('TM30 Helper: Nationality field not found!');
     }
@@ -166,23 +168,31 @@ async function setAutocompleteValue(el, value) {
     nativeSetter.call(el, '');
     el.dispatchEvent(new Event('input', { bubbles: true }));
 
-    console.log(`TM30 Helper: Typing nationality: ${value}`);
+    console.log(`TM30 Helper: Typing nationality code: ${value}`);
 
-    try {
-        document.execCommand('insertText', false, value);
-    } catch (e) {
-        console.warn('TM30 Helper: execCommand failed, falling back to property setter');
-        nativeSetter.call(el, value);
+    // Type the value character by character for better autocomplete triggering
+    for (const char of value) {
+        try {
+            document.execCommand('insertText', false, char);
+        } catch (e) {
+            const currentValue = el.value;
+            nativeSetter.call(el, currentValue + char);
+        }
+        el.dispatchEvent(new Event('input', { bubbles: true }));
+        await delay(50);
     }
 
-    el.dispatchEvent(new Event('input', { bubbles: true }));
     el.dispatchEvent(new KeyboardEvent('keydown', { key: 'a', bubbles: true }));
 
     await delay(1500);
-    const options = Array.from(document.querySelectorAll('mat-option, .mat-autocomplete-panel mat-option'));
+    const options = Array.from(document.querySelectorAll('mat-option, .mat-autocomplete-panel mat-option, .mat-mdc-option'));
     console.log(`TM30 Helper: Options found: ${options.length}`);
 
-    const option = options.find(opt => opt.innerText.toLowerCase().includes(value.toLowerCase())) || options[0];
+    // Find option that starts with our code (e.g., "DEU : GERMAN")
+    const normalizedValue = value.toUpperCase();
+    const option = options.find(opt => opt.innerText.toUpperCase().startsWith(normalizedValue)) ||
+                   options.find(opt => opt.innerText.toUpperCase().includes(normalizedValue)) || 
+                   options[0];
     
     if (option) {
         console.log('TM30 Helper: Clicking option:', option.innerText);
@@ -193,4 +203,3 @@ async function setAutocompleteValue(el, value) {
         console.error('TM30 Helper: No nationality options appeared!');
     }
 }
-

@@ -37,7 +37,11 @@
                     <div class="Options__FormGroup">
                         <label for="nationality" class="Options__Label">Nationality <span
                                 class="required">*</span></label>
-                        <input type="text" id="nationality" class="Options__Input" required>
+                        <div class="Options__Autocomplete">
+                            <input type="text" id="nationality" class="Options__Input" autocomplete="off" required>
+                            <input type="hidden" id="nationalityCode">
+                            <div id="nationality-dropdown" class="Options__AutocompleteDropdown"></div>
+                        </div>
                     </div>
                     <div class="Options__FormGroup">
                         <label for="gender" class="Options__Label">Gender <span class="required">*</span></label>
@@ -51,7 +55,7 @@
                         <input type="text" id="birthDate" class="Options__Input" pattern="\d{2}/\d{2}/\d{4}"
                             placeholder="DD/MM/YYYY" required>
                     </div>
-                    <div class="Options__FormGroup Options__FormGroup_fullWidth">
+                    <div class="Options__FormGroup">
                         <label for="phoneNo" class="Options__Label">Phone Number</label>
                         <input type="text" id="phoneNo" class="Options__Input">
                     </div>
@@ -73,6 +77,8 @@
         </section>
     </div>
     <script src="storage.js"></script>
+    <script src="nationalities.js"></script>
+    <script src="mock-data.js"></script>
     <script src="options.js"></script>
 </body>
 

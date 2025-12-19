@@ -26,6 +26,118 @@ document.addEventListener('DOMContentLoaded', async () => {
         e.target.value = value.slice(0, 10);
     });
 
+    // Nationality Autocomplete
+    const nationalityInput = document.getElementById('nationality');
+    const nationalityCodeInput = document.getElementById('nationalityCode');
+    const nationalityDropdown = document.getElementById('nationality-dropdown');
+    let activeIndex = -1;
+    let currentResults = [];
+
+    const showDropdown = () => {
+        nationalityDropdown.classList.add('Options__AutocompleteDropdown_visible');
+    };
+
+    const hideDropdown = () => {
+        nationalityDropdown.classList.remove('Options__AutocompleteDropdown_visible');
+        activeIndex = -1;
+    };
+
+    const renderDropdown = (results) => {
+        currentResults = results;
+        nationalityDropdown.innerHTML = '';
+
+        if (results.length === 0) {
+            const empty = document.createElement('div');
+            empty.className = 'Options__AutocompleteEmpty';
+            empty.textContent = 'No nationality found';
+            nationalityDropdown.appendChild(empty);
+            return;
+        }
+
+        results.forEach((item, index) => {
+            const option = document.createElement('div');
+            option.className = 'Options__AutocompleteItem';
+            if (nationalityCodeInput.value === item.code) {
+                option.classList.add('Options__AutocompleteItem_selected');
+            }
+            if (index === activeIndex) {
+                option.classList.add('Options__AutocompleteItem_active');
+            }
+
+            const codeSpan = document.createElement('span');
+            codeSpan.className = 'Options__AutocompleteCode';
+            codeSpan.textContent = item.code;
+
+            const nameSpan = document.createElement('span');
+            nameSpan.className = 'Options__AutocompleteName';
+            nameSpan.textContent = item.name;
+
+            option.appendChild(codeSpan);
+            option.appendChild(nameSpan);
+
+            option.addEventListener('mousedown', (e) => {
+                e.preventDefault();
+                selectNationality(item);
+            });
+
+            nationalityDropdown.appendChild(option);
+        });
+    };
+
+    const selectNationality = (item) => {
+        nationalityInput.value = `${item.code} : ${item.name}`;
+        nationalityCodeInput.value = item.code;
+        hideDropdown();
+    };
+
+    nationalityInput.addEventListener('focus', () => {
+        const query = nationalityInput.value;
+        const results = searchNationalities(query);
+        renderDropdown(results);
+        showDropdown();
+    });
+
+    nationalityInput.addEventListener('input', () => {
+        activeIndex = -1;
+        const query = nationalityInput.value;
+        const results = searchNationalities(query);
+        renderDropdown(results);
+        showDropdown();
+        nationalityCodeInput.value = '';
+    });
+
+    nationalityInput.addEventListener('blur', () => {
+        setTimeout(hideDropdown, 150);
+    });
+
+    nationalityInput.addEventListener('keydown', (e) => {
+        if (!nationalityDropdown.classList.contains('Options__AutocompleteDropdown_visible')) return;
+
+        const items = nationalityDropdown.querySelectorAll('.Options__AutocompleteItem');
+        if (items.length === 0) return;
+
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            activeIndex = Math.min(activeIndex + 1, items.length - 1);
+            renderDropdown(currentResults);
+            items[activeIndex]?.scrollIntoView({ block: 'nearest' });
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            activeIndex = Math.max(activeIndex - 1, 0);
+            renderDropdown(currentResults);
+            items[activeIndex]?.scrollIntoView({ block: 'nearest' });
+        } else if (e.key === 'Enter') {
+            e.preventDefault();
+            if (activeIndex >= 0 && currentResults[activeIndex]) {
+                selectNationality(currentResults[activeIndex]);
+            } else if (currentResults.length > 0) {
+                selectNationality(currentResults[0]);
+            }
+        } else if (e.key === 'Escape') {
+            hideDropdown();
+        }
+    });
+
     // Load and render persons
     const loadPersons = async () => {
         const persons = await Storage.getPersons();
@@ -48,7 +160,17 @@ document.addEventListener('DOMContentLoaded', async () => {
             document.getElementById('firstName').value = person.firstName;
             document.getElementById('lastName').value = person.lastName;
             document.getElementById('passportNo').value = person.passportNo;
-            document.getElementById('nationality').value = person.nationality;
+            
+            // Set nationality with display value
+            const nationality = NATIONALITIES.find(n => n.code === person.nationalityCode);
+            if (nationality) {
+                nationalityInput.value = `${nationality.code} : ${nationality.name}`;
+                nationalityCodeInput.value = nationality.code;
+            } else {
+                nationalityInput.value = person.nationality || '';
+                nationalityCodeInput.value = person.nationalityCode || '';
+            }
+            
             document.getElementById('gender').value = person.gender;
             document.getElementById('birthDate').value = person.birthDate;
             document.getElementById('phoneNo').value = person.phoneNo || '';
@@ -63,6 +185,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const resetForm = () => {
         form.reset();
         personIdInput.value = '';
+        nationalityCodeInput.value = '';
         document.getElementById('form-title').innerText = 'Add New Person';
         submitBtn.innerText = 'Save Profile';
         cancelEditBtn.style.display = 'none';
@@ -133,11 +256,19 @@ document.addEventListener('DOMContentLoaded', async () => {
             return;
         }
 
+        // Validate nationality selection
+        if (!nationalityCodeInput.value) {
+            alert('Please select a nationality from the list');
+            nationalityInput.focus();
+            return;
+        }
+
         const formData = {
             firstName: document.getElementById('firstName').value,
             lastName: document.getElementById('lastName').value,
             passportNo: document.getElementById('passportNo').value,
-            nationality: document.getElementById('nationality').value,
+            nationality: nationalityInput.value,
+            nationalityCode: nationalityCodeInput.value,
             gender: document.getElementById('gender').value,
             birthDate: birthDate,
             phoneNo: document.getElementById('phoneNo').value

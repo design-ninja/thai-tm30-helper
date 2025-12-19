@@ -1,0 +1,313 @@
+// TM30 Nationality list based on ISO 3166-1 alpha-3 codes
+// Format matches the TM30 immigration website autocomplete: "CODE : NATIONALITY"
+
+const NATIONALITIES = [
+    { code: "AFG", name: "AFGHAN" },
+    { code: "ALB", name: "ALBANIAN" },
+    { code: "DZA", name: "ALGERIAN" },
+    { code: "ASM", name: "AMERICAN SAMOAN" },
+    { code: "AND", name: "ANDORRAN" },
+    { code: "AGO", name: "ANGOLAN" },
+    { code: "AIA", name: "ANGUILLAN" },
+    { code: "ATG", name: "ANTIGUAN" },
+    { code: "ARG", name: "ARGENTINE" },
+    { code: "ARM", name: "ARMENIAN" },
+    { code: "ABW", name: "ARUBAN" },
+    { code: "AUS", name: "AUSTRALIAN" },
+    { code: "AUT", name: "AUSTRIAN" },
+    { code: "AZE", name: "AZERBAIJANI" },
+    { code: "BHS", name: "BAHAMIAN" },
+    { code: "BHR", name: "BAHRAINI" },
+    { code: "BGD", name: "BANGLADESHI" },
+    { code: "BRB", name: "BARBADIAN" },
+    { code: "BLR", name: "BELARUSIAN" },
+    { code: "BEL", name: "BELGIAN" },
+    { code: "BLZ", name: "BELIZEAN" },
+    { code: "BEN", name: "BENINESE" },
+    { code: "BMU", name: "BERMUDIAN" },
+    { code: "BTN", name: "BHUTANESE" },
+    { code: "BOL", name: "BOLIVIAN" },
+    { code: "BIH", name: "BOSNIAN" },
+    { code: "BWA", name: "BOTSWANAN" },
+    { code: "BRA", name: "BRAZILIAN" },
+    { code: "VGB", name: "BRITISH VIRGIN ISLANDER" },
+    { code: "BRN", name: "BRUNEIAN" },
+    { code: "BGR", name: "BULGARIAN" },
+    { code: "BFA", name: "BURKINABE" },
+    { code: "BDI", name: "BURUNDIAN" },
+    { code: "KHM", name: "CAMBODIAN" },
+    { code: "CMR", name: "CAMEROONIAN" },
+    { code: "CAN", name: "CANADIAN" },
+    { code: "CPV", name: "CAPE VERDEAN" },
+    { code: "CYM", name: "CAYMANIAN" },
+    { code: "CAF", name: "CENTRAL AFRICAN" },
+    { code: "TCD", name: "CHADIAN" },
+    { code: "CHL", name: "CHILEAN" },
+    { code: "CHN", name: "CHINESE" },
+    { code: "COL", name: "COLOMBIAN" },
+    { code: "COM", name: "COMORIAN" },
+    { code: "COG", name: "CONGOLESE" },
+    { code: "COD", name: "CONGOLESE (DRC)" },
+    { code: "COK", name: "COOK ISLANDER" },
+    { code: "CRI", name: "COSTA RICAN" },
+    { code: "HRV", name: "CROATIAN" },
+    { code: "CUB", name: "CUBAN" },
+    { code: "CYP", name: "CYPRIOT" },
+    { code: "CZE", name: "CZECH" },
+    { code: "CIV", name: "IVORIAN" },
+    { code: "DNK", name: "DANISH" },
+    { code: "DJI", name: "DJIBOUTIAN" },
+    { code: "DMA", name: "DOMINICAN" },
+    { code: "DOM", name: "DOMINICAN (REP)" },
+    { code: "ECU", name: "ECUADORIAN" },
+    { code: "EGY", name: "EGYPTIAN" },
+    { code: "SLV", name: "SALVADORAN" },
+    { code: "GNQ", name: "EQUATORIAL GUINEAN" },
+    { code: "ERI", name: "ERITREAN" },
+    { code: "EST", name: "ESTONIAN" },
+    { code: "SWZ", name: "SWAZI" },
+    { code: "ETH", name: "ETHIOPIAN" },
+    { code: "FJI", name: "FIJIAN" },
+    { code: "FIN", name: "FINNISH" },
+    { code: "FRA", name: "FRENCH" },
+    { code: "GAB", name: "GABONESE" },
+    { code: "GMB", name: "GAMBIAN" },
+    { code: "GEO", name: "GEORGIAN" },
+    { code: "DEU", name: "GERMAN" },
+    { code: "GHA", name: "GHANAIAN" },
+    { code: "GIB", name: "GIBRALTARIAN" },
+    { code: "GRC", name: "GREEK" },
+    { code: "GRL", name: "GREENLANDIC" },
+    { code: "GRD", name: "GRENADIAN" },
+    { code: "GUM", name: "GUAMANIAN" },
+    { code: "GTM", name: "GUATEMALAN" },
+    { code: "GIN", name: "GUINEAN" },
+    { code: "GNB", name: "GUINEA-BISSAUAN" },
+    { code: "GUY", name: "GUYANESE" },
+    { code: "HTI", name: "HAITIAN" },
+    { code: "HND", name: "HONDURAN" },
+    { code: "HKG", name: "HONG KONG" },
+    { code: "HUN", name: "HUNGARIAN" },
+    { code: "ISL", name: "ICELANDIC" },
+    { code: "IND", name: "INDIAN" },
+    { code: "IDN", name: "INDONESIAN" },
+    { code: "IRN", name: "IRANIAN" },
+    { code: "IRQ", name: "IRAQI" },
+    { code: "IRL", name: "IRISH" },
+    { code: "ISR", name: "ISRAELI" },
+    { code: "ITA", name: "ITALIAN" },
+    { code: "JAM", name: "JAMAICAN" },
+    { code: "JPN", name: "JAPANESE" },
+    { code: "JOR", name: "JORDANIAN" },
+    { code: "KAZ", name: "KAZAKHSTANI" },
+    { code: "KEN", name: "KENYAN" },
+    { code: "KIR", name: "I-KIRIBATI" },
+    { code: "PRK", name: "NORTH KOREAN" },
+    { code: "KOR", name: "SOUTH KOREAN" },
+    { code: "KWT", name: "KUWAITI" },
+    { code: "KGZ", name: "KYRGYZ" },
+    { code: "LAO", name: "LAO" },
+    { code: "LVA", name: "LATVIAN" },
+    { code: "LBN", name: "LEBANESE" },
+    { code: "LSO", name: "BASOTHO" },
+    { code: "LBR", name: "LIBERIAN" },
+    { code: "LBY", name: "LIBYAN" },
+    { code: "LIE", name: "LIECHTENSTEINER" },
+    { code: "LTU", name: "LITHUANIAN" },
+    { code: "LUX", name: "LUXEMBOURGER" },
+    { code: "MAC", name: "MACANESE" },
+    { code: "MDG", name: "MALAGASY" },
+    { code: "MWI", name: "MALAWIAN" },
+    { code: "MYS", name: "MALAYSIAN" },
+    { code: "MDV", name: "MALDIVIAN" },
+    { code: "MLI", name: "MALIAN" },
+    { code: "MLT", name: "MALTESE" },
+    { code: "MHL", name: "MARSHALLESE" },
+    { code: "MRT", name: "MAURITANIAN" },
+    { code: "MUS", name: "MAURITIAN" },
+    { code: "MEX", name: "MEXICAN" },
+    { code: "FSM", name: "MICRONESIAN" },
+    { code: "MDA", name: "MOLDOVAN" },
+    { code: "MCO", name: "MONEGASQUE" },
+    { code: "MNG", name: "MONGOLIAN" },
+    { code: "MNE", name: "MONTENEGRIN" },
+    { code: "MSR", name: "MONTSERRATIAN" },
+    { code: "MAR", name: "MOROCCAN" },
+    { code: "MOZ", name: "MOZAMBICAN" },
+    { code: "MMR", name: "BURMESE" },
+    { code: "NAM", name: "NAMIBIAN" },
+    { code: "NRU", name: "NAURUAN" },
+    { code: "NPL", name: "NEPALESE" },
+    { code: "NLD", name: "DUTCH" },
+    { code: "NCL", name: "NEW CALEDONIAN" },
+    { code: "NZL", name: "NEW ZEALANDER" },
+    { code: "NIC", name: "NICARAGUAN" },
+    { code: "NER", name: "NIGERIEN" },
+    { code: "NGA", name: "NIGERIAN" },
+    { code: "NIU", name: "NIUEAN" },
+    { code: "MKD", name: "MACEDONIAN" },
+    { code: "NOR", name: "NORWEGIAN" },
+    { code: "OMN", name: "OMANI" },
+    { code: "PAK", name: "PAKISTANI" },
+    { code: "PLW", name: "PALAUAN" },
+    { code: "PSE", name: "PALESTINIAN" },
+    { code: "PAN", name: "PANAMANIAN" },
+    { code: "PNG", name: "PAPUA NEW GUINEAN" },
+    { code: "PRY", name: "PARAGUAYAN" },
+    { code: "PER", name: "PERUVIAN" },
+    { code: "PHL", name: "FILIPINO" },
+    { code: "POL", name: "POLISH" },
+    { code: "PRT", name: "PORTUGUESE" },
+    { code: "PRI", name: "PUERTO RICAN" },
+    { code: "QAT", name: "QATARI" },
+    { code: "ROU", name: "ROMANIAN" },
+    { code: "RUS", name: "RUSSIAN" },
+    { code: "RWA", name: "RWANDAN" },
+    { code: "KNA", name: "KITTITIAN" },
+    { code: "LCA", name: "SAINT LUCIAN" },
+    { code: "VCT", name: "VINCENTIAN" },
+    { code: "WSM", name: "SAMOAN" },
+    { code: "SMR", name: "SAMMARINESE" },
+    { code: "STP", name: "SAO TOMEAN" },
+    { code: "SAU", name: "SAUDI" },
+    { code: "SEN", name: "SENEGALESE" },
+    { code: "SRB", name: "SERBIAN" },
+    { code: "SYC", name: "SEYCHELLOIS" },
+    { code: "SLE", name: "SIERRA LEONEAN" },
+    { code: "SGP", name: "SINGAPOREAN" },
+    { code: "SVK", name: "SLOVAK" },
+    { code: "SVN", name: "SLOVENIAN" },
+    { code: "SLB", name: "SOLOMON ISLANDER" },
+    { code: "SOM", name: "SOMALI" },
+    { code: "ZAF", name: "SOUTH AFRICAN" },
+    { code: "SSD", name: "SOUTH SUDANESE" },
+    { code: "ESP", name: "SPANISH" },
+    { code: "LKA", name: "SRI LANKAN" },
+    { code: "SDN", name: "SUDANESE" },
+    { code: "SUR", name: "SURINAMESE" },
+    { code: "SWE", name: "SWEDISH" },
+    { code: "CHE", name: "SWISS" },
+    { code: "SYR", name: "SYRIAN" },
+    { code: "TWN", name: "TAIWANESE" },
+    { code: "TJK", name: "TAJIK" },
+    { code: "TZA", name: "TANZANIAN" },
+    { code: "THA", name: "THAI" },
+    { code: "TLS", name: "TIMORESE" },
+    { code: "TGO", name: "TOGOLESE" },
+    { code: "TON", name: "TONGAN" },
+    { code: "TTO", name: "TRINIDADIAN" },
+    { code: "TUN", name: "TUNISIAN" },
+    { code: "TUR", name: "TURKISH" },
+    { code: "TKM", name: "TURKMEN" },
+    { code: "TCA", name: "TURKS AND CAICOS ISLANDER" },
+    { code: "TUV", name: "TUVALUAN" },
+    { code: "UGA", name: "UGANDAN" },
+    { code: "UKR", name: "UKRAINIAN" },
+    { code: "ARE", name: "EMIRATI" },
+    { code: "GBR", name: "BRITISH" },
+    { code: "USA", name: "AMERICAN" },
+    { code: "URY", name: "URUGUAYAN" },
+    { code: "UZB", name: "UZBEK" },
+    { code: "VUT", name: "NI-VANUATU" },
+    { code: "VAT", name: "VATICAN" },
+    { code: "VEN", name: "VENEZUELAN" },
+    { code: "VNM", name: "VIETNAMESE" },
+    { code: "VIR", name: "U.S. VIRGIN ISLANDER" },
+    { code: "YEM", name: "YEMENI" },
+    { code: "ZMB", name: "ZAMBIAN" },
+    { code: "ZWE", name: "ZIMBABWEAN" }
+];
+
+// Common country name aliases for better search
+const NATIONALITY_ALIASES = {
+    "GERMANY": "DEU",
+    "ENGLAND": "GBR",
+    "BRITAIN": "GBR",
+    "UK": "GBR",
+    "UNITED KINGDOM": "GBR",
+    "GREAT BRITAIN": "GBR",
+    "USA": "USA",
+    "AMERICA": "USA",
+    "UNITED STATES": "USA",
+    "JAPAN": "JPN",
+    "KOREA": "KOR",
+    "SOUTH KOREA": "KOR",
+    "CHINA": "CHN",
+    "RUSSIA": "RUS",
+    "FRANCE": "FRA",
+    "ITALY": "ITA",
+    "SPAIN": "ESP",
+    "BRAZIL": "BRA",
+    "AUSTRALIA": "AUS",
+    "CANADA": "CAN",
+    "INDIA": "IND",
+    "NETHERLANDS": "NLD",
+    "HOLLAND": "NLD",
+    "SWITZERLAND": "CHE",
+    "SWEDEN": "SWE",
+    "NORWAY": "NOR",
+    "DENMARK": "DNK",
+    "FINLAND": "FIN",
+    "POLAND": "POL",
+    "UKRAINE": "UKR",
+    "THAILAND": "THA",
+    "VIETNAM": "VNM",
+    "PHILIPPINES": "PHL",
+    "INDONESIA": "IDN",
+    "MALAYSIA": "MYS",
+    "SINGAPORE": "SGP",
+    "MYANMAR": "MMR",
+    "BURMA": "MMR",
+    "LAOS": "LAO",
+    "CAMBODIA": "KHM"
+};
+
+// Get display value for TM30 site: "DEU : GERMAN"
+function getNationalityDisplay(code) {
+    const nationality = NATIONALITIES.find(n => n.code === code);
+    return nationality ? `${nationality.code} : ${nationality.name}` : code;
+}
+
+// Search nationalities by query (searches both code, name, and aliases)
+function searchNationalities(query) {
+    if (!query || query.length < 1) return NATIONALITIES.slice(0, 10);
+    
+    const normalizedQuery = query.toUpperCase().trim();
+    
+    // Check aliases first
+    const aliasCode = NATIONALITY_ALIASES[normalizedQuery];
+    if (aliasCode) {
+        const exactMatch = NATIONALITIES.find(n => n.code === aliasCode);
+        if (exactMatch) {
+            return [exactMatch, ...NATIONALITIES.filter(n => n.code !== aliasCode).slice(0, 9)];
+        }
+    }
+    
+    // Search by code or name
+    const results = NATIONALITIES.filter(n => 
+        n.code.includes(normalizedQuery) || 
+        n.name.includes(normalizedQuery)
+    );
+    
+    // Sort: exact matches first, then by relevance
+    results.sort((a, b) => {
+        const aExact = a.code === normalizedQuery || a.name === normalizedQuery;
+        const bExact = b.code === normalizedQuery || b.name === normalizedQuery;
+        if (aExact && !bExact) return -1;
+        if (!aExact && bExact) return 1;
+        
+        const aStartsCode = a.code.startsWith(normalizedQuery);
+        const bStartsCode = b.code.startsWith(normalizedQuery);
+        if (aStartsCode && !bStartsCode) return -1;
+        if (!aStartsCode && bStartsCode) return 1;
+        
+        const aStartsName = a.name.startsWith(normalizedQuery);
+        const bStartsName = b.name.startsWith(normalizedQuery);
+        if (aStartsName && !bStartsName) return -1;
+        if (!aStartsName && bStartsName) return 1;
+        
+        return 0;
+    });
+    
+    return results.slice(0, 15);
+}
