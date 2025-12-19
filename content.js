@@ -1,16 +1,9 @@
-// Content script v2.0 - Optimized with MutationObserver and modern APIs
-console.log('%c TM30 Helper Content Script v2.0 Loaded 🫡 ', 'background: #333; color: #fff; padding: 2px 5px; border-radius: 3px;');
+// Content script v3.0 - Instant fill without delays
+console.log('%c TM30 Helper Content Script v3.0 Loaded 🫡 ', 'background: #333; color: #fff; padding: 2px 5px; border-radius: 3px;');
 
-// Delay constants
-const DELAYS = {
-    SHORT: 100,
-    MEDIUM: 300,
-    SELECT_ANIMATION: 600,
-    FIELD_LOAD: 800,
-    AUTOCOMPLETE: 1500
-};
+// Minimal delay for Angular to process events
+const MICRO_DELAY = 50;
 
-// Promise-based delay function
 function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -54,12 +47,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 });
 
 async function fillTM30Form(person) {
-    console.log('TM30 Helper: Starting fill sequence for', person.firstName);
+    console.log('TM30 Helper: Starting instant fill for', person.firstName);
     const [d, m, y] = (person.birthDate || '').split('/');
 
     // 0. Select Address FIRST
-    await delay(DELAYS.MEDIUM);
-    await selectAddress();
+    selectAddress();
 
     const textFields = [
         { name: 'First Name', val: person.firstName, selectors: ['input[formcontrolname="firstName"]'] },
@@ -72,24 +64,22 @@ async function fillTM30Form(person) {
         { name: 'Number of Nights', val: person.numberOfNights, selectors: ['input[formcontrolname="nightOfStay"]'] }
     ];
 
-    // 1. Fill standard fields
+    // 1. Fill all standard fields at once
     for (const field of textFields) {
         const el = findElement(field.selectors);
         if (el) {
             setStandardValue(el, field.val);
-            await delay(DELAYS.SHORT);
         }
     }
 
     // 2. Fill Gender
-    await delay(DELAYS.MEDIUM);
     const genderEl = findElement(['mat-select[formcontrolname="genderCode"]']);
     if (genderEl) {
-        await setSelectValue(genderEl, person.gender === 'M' ? 'Male' : 'Female');
+        setSelectValue(genderEl, person.gender === 'M' ? 'Male' : 'Female');
     }
 
-    // 3. Fill Nationality (Autocomplete)
-    await delay(DELAYS.FIELD_LOAD);
+    // 3. Fill Nationality (Autocomplete) - needs small delay for dropdown
+    await delay(MICRO_DELAY);
     const nationEl = findElement([
         'input[formcontrolname="key"]',
         'input[formcontrolname="nationality"]',
@@ -98,27 +88,24 @@ async function fillTM30Form(person) {
         'input[aria-autocomplete="list"]'
     ]);
     if (nationEl) {
-        console.log('TM30 Helper: Final step - Nationality');
-        // Use the 3-letter code for reliable matching
+        console.log('TM30 Helper: Filling Nationality');
         const searchValue = person.nationalityCode || person.nationality;
         await setAutocompleteValue(nationEl, searchValue);
     } else {
         console.warn('TM30 Helper: Nationality field not found!');
     }
 
-    console.log('TM30 Helper: Sequence complete');
+    console.log('TM30 Helper: Instant fill complete ✓');
 }
 
-async function selectAddress() {
-    console.log('TM30 Helper: Searching for address radio button...');
+function selectAddress() {
+    console.log('TM30 Helper: Selecting address...');
 
     let radio = document.querySelector('mat-radio-button[sit-element="address-radio"]') ||
         document.querySelector('.style-list-address-cont mat-radio-button') ||
         document.querySelector('mat-radio-button');
 
     if (radio) {
-        console.log('TM30 Helper: Found address radio. Clicking...');
-
         radio.click();
 
         const label = radio.querySelector('label');
@@ -129,8 +116,7 @@ async function selectAddress() {
             input.click();
             input.dispatchEvent(new Event('change', { bubbles: true }));
         }
-
-        await delay(DELAYS.MEDIUM);
+        console.log('TM30 Helper: Address selected ✓');
     } else {
         console.warn('TM30 Helper: Could not find address radio button!');
     }
@@ -152,13 +138,18 @@ function setStandardValue(el, value) {
     el.dispatchEvent(new Event('blur', { bubbles: true }));
 }
 
-async function setSelectValue(el, value) {
+function setSelectValue(el, value) {
     el.click();
-    await delay(DELAYS.SELECT_ANIMATION);
-    const options = Array.from(document.querySelectorAll('mat-option'));
-    const option = options.find(opt => opt.innerText.toLowerCase().includes(value.toLowerCase())) ||
-        options.find(opt => opt.innerText.includes('Male') || opt.innerText.includes('Female'));
-    if (option) option.click();
+    
+    // Use requestAnimationFrame to wait for dropdown to open
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            const options = Array.from(document.querySelectorAll('mat-option'));
+            const option = options.find(opt => opt.innerText.toLowerCase().includes(value.toLowerCase())) ||
+                options.find(opt => opt.innerText.includes('Male') || opt.innerText.includes('Female'));
+            if (option) option.click();
+        });
+    });
 }
 
 async function setAutocompleteValue(el, value) {
@@ -189,7 +180,7 @@ async function setAutocompleteValue(el, value) {
     const options = Array.from(document.querySelectorAll('mat-option, .mat-autocomplete-panel mat-option, .mat-mdc-option'));
     console.log(`TM30 Helper: Options found: ${options.length}`);
 
-    // Find option that starts with our code (e.g., "DEU : GERMAN")
+    // Find option that starts with our code (e.g., "RUS : RUSSIAN")
     const normalizedValue = value.toUpperCase();
     const option = options.find(opt => opt.innerText.toUpperCase().startsWith(normalizedValue)) ||
                    options.find(opt => opt.innerText.toUpperCase().includes(normalizedValue)) || 
