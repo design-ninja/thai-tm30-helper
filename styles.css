@@ -295,6 +295,10 @@ body.Options {
     margin-bottom: 0;
 }
 
+.Options__SectionHeader + .Options__SectionDescription {
+    margin-top: 16px;
+}
+
 .Options__Badge {
     padding: 4px 12px;
     border-radius: 20px;
