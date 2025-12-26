@@ -37,11 +37,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     const sessionValid = await PinManager.isSessionValid();
     const pinLockDigits = document.getElementById('pin-lock-digits');
     
-    if (pinEnabled && !sessionValid) {
-        pinLock.style.display = 'flex';
-        mainContent.style.display = 'none';
-        
-        // Setup digit inputs with auto-submit using shared PinUI
+    // Setup digit inputs with auto-submit using shared PinUI
+    // This must be done before showing lock screen so handlers are always attached
+    if (pinLockDigits) {
         PinUI.setupDigitInputs(pinLockDigits, {
             autoSubmit: true,
             onComplete: async (pin) => {
@@ -61,6 +59,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             }
         });
+    }
+    
+    if (pinEnabled && !sessionValid) {
+        pinLock.style.display = 'flex';
+        mainContent.style.display = 'none';
         
         // Focus first input
         PinUI.focusFirst(pinLockDigits);
