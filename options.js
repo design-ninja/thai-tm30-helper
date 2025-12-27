@@ -590,6 +590,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     const importExcelBtn = document.getElementById('import-excel-btn');
     const importFileInput = document.getElementById('import-file-input');
 
+    // Extend dayjs with UTC plugin
+    dayjs.extend(window.dayjs_plugin_utc);
+
     // Excel headers matching immigration template
     const EXCEL_HEADERS = [
         'ชื่อ\nFirst Name *',
@@ -692,45 +695,43 @@ document.addEventListener('DOMContentLoaded', async () => {
             // Helper to parse Excel dates (serial numbers or string formats)
             const parseExcelDate = (value) => {
                 if (!value) return '';
+
+                let dateObj;
                 
                 // If it's a number (Excel serial date)
                 if (typeof value === 'number') {
                     // Excel date: days since 1900-01-01 (with Excel's leap year bug)
-                    const date = new Date((value - 25569) * 86400 * 1000);
-                    const day = String(date.getUTCDate()).padStart(2, '0');
-                    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
-                    const year = date.getUTCFullYear();
-                    return `${day}/${month}/${year}`;
+                    // Use UTC to avoid timezone shifts
+                    dateObj = dayjs(new Date(Math.round((value - 25569) * 86400 * 1000))).utc();
+                } else {
+                    // String parsing
+                    const str = value.toString().trim();
+                    
+                    // Try parsing common formats
+                    // dayjs handles ISO automatically. For DD/MM/YYYY manually parse
+                    if (/^\d{1,2}[\/-]\d{1,2}[\/-]\d{2,4}$/.test(str)) {
+                        const parts = str.split(/[\/-]/);
+                        const d = parseInt(parts[0]);
+                        const m = parseInt(parts[1]) - 1; // Month is 0-indexed in dayjs object creation usually, but let's use standard string
+                        let y = parseInt(parts[2]);
+                        
+                        // Handle 2 digit year
+                        if (y < 100) {
+                            y = y < 30 ? 2000 + y : 1900 + y;
+                        }
+                        
+                        dateObj = dayjs(`${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`);
+                    } else {
+                        // Fallback to dayjs standard parsing
+                        dateObj = dayjs(str);
+                    }
+                }
+
+                if (dateObj.isValid()) {
+                    return dateObj.format('DD/MM/YYYY');
                 }
                 
-                // If it's a string, try to parse various formats
-                const str = value.toString().trim();
-                
-                // Already in DD/MM/YYYY format
-                if (/^\d{2}\/\d{2}\/\d{4}$/.test(str)) {
-                    return str;
-                }
-                
-                // Short format: D/M/YY or DD/M/YY or D/MM/YY
-                const shortMatch = str.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2})$/);
-                if (shortMatch) {
-                    const day = shortMatch[1].padStart(2, '0');
-                    const month = shortMatch[2].padStart(2, '0');
-                    let year = parseInt(shortMatch[3]);
-                    // Convert 2-digit year: 00-29 = 2000s, 30-99 = 1900s
-                    year = year < 30 ? 2000 + year : 1900 + year;
-                    return `${day}/${month}/${year}`;
-                }
-                
-                // Medium format: D/M/YYYY or DD/M/YYYY
-                const medMatch = str.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
-                if (medMatch) {
-                    const day = medMatch[1].padStart(2, '0');
-                    const month = medMatch[2].padStart(2, '0');
-                    return `${day}/${month}/${medMatch[3]}`;
-                }
-                
-                return str;
+                return value.toString();
             };
             
             let importedCount = 0;
@@ -793,6 +794,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     await loadPersons();
     if (editId) {
-        editPerson(parseInt(editId));
+        editPerson(editId);
     }
 });

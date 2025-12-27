@@ -8,6 +8,24 @@ function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+// Robust check for element visibility and existence
+function waitForElement(selectors, timeout = 5000) {
+    const start = Date.now();
+    return new Promise(resolve => {
+        const check = () => {
+            const el = findElement(selectors);
+            if (el) {
+                resolve(el);
+            } else if (Date.now() - start > timeout) {
+                resolve(null);
+            } else {
+                requestAnimationFrame(check);
+            }
+        };
+        check();
+    });
+}
+
 // Scan for form controls
 function scanFormControls() {
     const controls = Array.from(document.querySelectorAll('[formcontrolname]'))
@@ -73,7 +91,7 @@ async function fillTM30Form(person) {
     for (const field of textFields) {
         const el = findElement(field.selectors);
         if (el) {
-            setStandardValue(el, field.val);
+            setNativeValue(el, field.val);
             console.log(`TM30 Helper: ✓ Filled "${field.name}" with "${field.val}"`);
         } else if (field.val) {
             console.warn(`TM30 Helper: ✗ Field "${field.name}" NOT FOUND. Tried selectors:`, field.selectors);
@@ -86,7 +104,7 @@ async function fillTM30Form(person) {
         setSelectValue(genderEl, person.gender === 'M' ? 'Male' : 'Female');
     }
 
-    // 3. Fill Nationality (Autocomplete) - needs small delay for dropdown
+    // 3. Fill Nationality (Autocomplete) - needs robust waiting
     await delay(MICRO_DELAY);
     const nationEl = findElement([
         'input[formcontrolname="key"]',
@@ -142,12 +160,39 @@ function findElement(selectors) {
     return null;
 }
 
+// Reliable native value setter for Angular/React/Vue
+function setNativeValue(element, value) {
+    let lastValue = element.value;
+    element.value = value;
+    let event = new Event('input', { bubbles: true });
+    
+    // React/Angular sometimes override the setter, so we need to call the prototype setter
+    // to ensure the internal tracker updates
+    let tracker = element._valueTracker;
+    if (tracker) {
+        tracker.setValue(lastValue);
+    }
+    
+    // Safe prototype lookup for the value setter
+    let proto = element;
+    while (proto && !Object.getOwnPropertyDescriptor(proto, 'value')) {
+        proto = Object.getPrototypeOf(proto);
+    }
+    
+    if (proto) {
+        const descriptor = Object.getOwnPropertyDescriptor(proto, 'value');
+        if (descriptor && descriptor.set) {
+            descriptor.set.call(element, value);
+        }
+    }
+    
+    element.dispatchEvent(new Event('input', { bubbles: true }));
+    element.dispatchEvent(new Event('change', { bubbles: true }));
+    element.dispatchEvent(new Event('blur', { bubbles: true }));
+}
+
 function setStandardValue(el, value) {
-    const nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
-    nativeInputValueSetter.call(el, value);
-    el.dispatchEvent(new Event('input', { bubbles: true }));
-    el.dispatchEvent(new Event('change', { bubbles: true }));
-    el.dispatchEvent(new Event('blur', { bubbles: true }));
+    setNativeValue(el, value);
 }
 
 function setSelectValue(el, value) {
@@ -168,19 +213,20 @@ async function setAutocompleteValue(el, value) {
     el.focus();
     el.click();
     
-    const nativeSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
-    nativeSetter.call(el, '');
-    el.dispatchEvent(new Event('input', { bubbles: true }));
-
+    // Clear value first
+    setNativeValue(el, '');
+    
     console.log(`TM30 Helper: Typing nationality code: ${value}`);
 
     // Type the value character by character for better autocomplete triggering
+    // Use execCommand because it simulates real user input better than programmatic setting
     for (const char of value) {
         try {
             document.execCommand('insertText', false, char);
         } catch (e) {
+            // Fallback for environments where execCommand is blocked
             const currentValue = el.value;
-            nativeSetter.call(el, currentValue + char);
+            setNativeValue(el, currentValue + char);
         }
         el.dispatchEvent(new Event('input', { bubbles: true }));
         await delay(50);
@@ -188,21 +234,42 @@ async function setAutocompleteValue(el, value) {
 
     el.dispatchEvent(new KeyboardEvent('keydown', { key: 'a', bubbles: true }));
 
-    await delay(1500);
-    const options = Array.from(document.querySelectorAll('mat-option, .mat-autocomplete-panel mat-option, .mat-mdc-option'));
-    console.log(`TM30 Helper: Options found: ${options.length}`);
-
-    // Find option that starts with our code (e.g., "RUS : RUSSIAN")
-    const normalizedValue = value.toUpperCase();
-    const option = options.find(opt => opt.innerText.toUpperCase().startsWith(normalizedValue)) ||
-                   options.find(opt => opt.innerText.toUpperCase().includes(normalizedValue)) || 
-                   options[0];
+    // Wait for options to appear using smart polling (max 3s)
+    console.log('TM30 Helper: Waiting for options...');
     
-    if (option) {
-        console.log('TM30 Helper: Clicking option:', option.innerText);
-        option.click();
-        await delay(200);
-        el.dispatchEvent(new Event('blur', { bubbles: true }));
+    const optionSelectors = ['mat-option', '.mat-autocomplete-panel mat-option', '.mat-mdc-option'];
+    
+    // Custom polling to wait specifically for ANY of these to appear
+    const startTime = Date.now();
+    let options = [];
+    
+    while (Date.now() - startTime < 3000) { // 3 second timeout
+        options = Array.from(document.querySelectorAll(optionSelectors.join(', ')));
+        if (options.length > 0) {
+            console.log(`TM30 Helper: Found ${options.length} options`);
+            
+            // Check if our option is present
+            const normalizedValue = value.toUpperCase();
+            const option = options.find(opt => opt.innerText.toUpperCase().startsWith(normalizedValue)) ||
+                           options.find(opt => opt.innerText.toUpperCase().includes(normalizedValue));
+            
+            if (option) {
+                console.log('TM30 Helper: Clicking option:', option.innerText);
+                option.click();
+                await delay(200);
+                el.dispatchEvent(new Event('blur', { bubbles: true }));
+                return; // Success!
+            }
+        }
+        await delay(100);
+    }
+    
+    // Fallback: If timed out but options exist, try to pick the first one
+    if (options.length > 0) {
+         console.warn('TM30 Helper: Timeout waiting for exact match, picking first option');
+         options[0].click();
+         await delay(200);
+         el.dispatchEvent(new Event('blur', { bubbles: true }));
     } else {
         console.error('TM30 Helper: No nationality options appeared!');
     }

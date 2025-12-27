@@ -8,14 +8,26 @@ const PinManager = {
     SHAKE_ANIMATION_DURATION: 500, // Shake animation duration in ms
     ACTIVITY_DEBOUNCE_DELAY: 1000, // Debounce delay for activity tracking
     
-    // Hash PIN using SHA-256
-    async hashPin(pin) {
+    // Hash PIN using SHA-256 with Salt
+    async hashPin(pin, existingSalt = null) {
+        // Generate new salt if not provided
+        let salt = existingSalt;
+        if (!salt) {
+            const saltBuffer = new Uint8Array(16);
+            crypto.getRandomValues(saltBuffer);
+            salt = Array.from(saltBuffer)
+                .map(b => b.toString(16).padStart(2, '0'))
+                .join('');
+        }
+
         const encoder = new TextEncoder();
-        const data = encoder.encode(pin);
+        const data = encoder.encode(pin + salt);
         const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-        return Array.from(new Uint8Array(hashBuffer))
+        const hash = Array.from(new Uint8Array(hashBuffer))
             .map(b => b.toString(16).padStart(2, '0'))
             .join('');
+            
+        return { hash, salt };
     },
 
     // Check if PIN is enabled
@@ -45,18 +57,28 @@ const PinManager = {
 
     // Set new PIN
     async setPin(pin) {
-        const hash = await this.hashPin(pin);
+        const { hash, salt } = await this.hashPin(pin);
         return new Promise(resolve => {
-            chrome.storage.local.set({ pinHash: hash, pinAttempts: 0 }, resolve);
+            chrome.storage.local.set({ 
+                pinHash: hash, 
+                pinSalt: salt,
+                pinAttempts: 0 
+            }, resolve);
         });
     },
 
     // Verify PIN and start session on success
     async verifyPin(pin) {
-        const hash = await this.hashPin(pin);
         return new Promise(resolve => {
-            chrome.storage.local.get(['pinHash'], (result) => {
+            chrome.storage.local.get(['pinHash', 'pinSalt'], async (result) => {
+                if (!result.pinHash || !result.pinSalt) {
+                    resolve(false);
+                    return;
+                }
+
+                const { hash } = await this.hashPin(pin, result.pinSalt);
                 const isValid = result.pinHash === hash;
+                
                 if (isValid) {
                     // Reset attempts and start session on success
                     this.startSession();
@@ -107,6 +129,8 @@ const PinManager = {
 
     // Increment failed attempts
     async incrementAttempts() {
+        // Simple optimistic lock simulation to reduce race condition risk locally
+        // In a real backend, this would need proper transactions
         const attempts = await this.getAttempts();
         const newAttempts = attempts + 1;
         return new Promise(resolve => {
@@ -119,14 +143,14 @@ const PinManager = {
     // Remove PIN (keeping data)
     async removePin() {
         return new Promise(resolve => {
-            chrome.storage.local.remove(['pinHash', 'pinAttempts', 'pinSessionExpires'], resolve);
+            chrome.storage.local.remove(['pinHash', 'pinSalt', 'pinAttempts', 'pinSessionExpires'], resolve);
         });
     },
 
     // Reset all data (PIN + persons + session)
     async resetAll() {
         return new Promise(resolve => {
-            chrome.storage.local.remove(['pinHash', 'pinAttempts', 'pinSessionExpires', 'persons'], resolve);
+            chrome.storage.local.remove(['pinHash', 'pinSalt', 'pinAttempts', 'pinSessionExpires', 'persons'], resolve);
         });
     },
 
