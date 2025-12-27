@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.4.0] - 2025-12-27
+
+### Fixed
+- Fixed date parsing issues during Excel import by using `dayjs` library
+- Improved auto-fill reliability on slow connections with smart polling
+- Relaxed URL check to support all `tm30.immigration.go.th` pages
+
+### Security
+- Enhanced PIN security with salt hashing
+
 ## [1.3.0] - 2025-12-26
 
 ### Added

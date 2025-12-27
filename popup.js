@@ -147,9 +147,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     const fillForm = (person) => {
         chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
             if (tabs[0]) {
-                // Check if we are on the correct URL
+                // Check if we are on the correct URL (allow any page on the domain)
                 const url = tabs[0].url;
-                if (!url || !url.includes('/external/ifa/add')) {
+                if (!url || !url.startsWith('https://tm30.immigration.go.th/')) {
                     alert(I18n.t('popup.error.wrongUrl'));
                     return;
                 }
