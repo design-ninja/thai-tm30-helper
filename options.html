@@ -9,6 +9,50 @@
 </head>
 
 <body class="Options">
+    <!-- Consent Modal -->
+    <div id="consent-modal" class="ConsentModal" style="display: none;">
+        <div class="ConsentModal__Card">
+            <div class="ConsentModal__LangSelector">
+                <select id="consent-language-selector" class="ConsentModal__LangSelect">
+                    <option value="en">English</option>
+                    <option value="th">ไทย</option>
+                </select>
+            </div>
+            <div class="ConsentModal__Icon">📋</div>
+            <h2 class="ConsentModal__Title" data-i18n="consent.title">Terms of Use</h2>
+            <p class="ConsentModal__Intro" data-i18n="consent.intro">Before using Thai TM30 Helper, please review and
+                accept the following terms:</p>
+
+            <div class="ConsentModal__Points">
+                <div class="ConsentModal__Point">
+                    <h4 data-i18n="consent.point1.title">You are the Data Controller</h4>
+                    <p data-i18n="consent.point1.text">All personal data you enter is stored locally on your device. You
+                        are responsible for the lawful processing of this data under PDPA and applicable laws.</p>
+                </div>
+                <div class="ConsentModal__Point">
+                    <h4 data-i18n="consent.point2.title">Your Responsibility</h4>
+                    <p data-i18n="consent.point2.text">You must have a valid legal basis (such as consent) for
+                        processing personal data of guests, tenants, or other third parties.</p>
+                </div>
+                <div class="ConsentModal__Point">
+                    <h4 data-i18n="consent.point3.title">Developer Disclaimer</h4>
+                    <p data-i18n="consent.point3.text">The developer does not collect, store, or have access to any data
+                        you enter. The developer is not liable for any misuse or PDPA violations.</p>
+                </div>
+            </div>
+
+            <p class="ConsentModal__Footer" data-i18n="consent.footer">By clicking "I Agree" you confirm that you have
+                read, understood, and accept these terms.</p>
+
+            <div class="ConsentModal__Actions">
+                <button id="consent-accept-btn" class="ConsentModal__AcceptBtn" data-i18n="consent.accept">I
+                    Agree</button>
+            </div>
+            <a href="DISCLAIMER.md" target="_blank" class="ConsentModal__ViewFull" data-i18n="consent.viewFull">View
+                full Terms of Use</a>
+        </div>
+    </div>
+
     <!-- PIN Lock Screen -->
     <div id="pin-lock" class="PinLock PinLock_fullscreen" style="display: none;">
         <div class="PinLock__Card">

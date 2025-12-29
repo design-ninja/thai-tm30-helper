@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.5.0] - 2025-12-29
+
+### Added
+- Terms of Use / Disclaimer document (DISCLAIMER.md)
+- First-run consent modal for PDPA compliance
+- Thai translations for consent modal
+
+### Changed
+- Updated Privacy Policy with PDPA-specific language
+- Clarified Data Controller status in documentation
+
 ## [1.4.0] - 2025-12-27
 
 ### Fixed

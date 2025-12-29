@@ -2,6 +2,47 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Initialize i18n
     await I18n.init();
 
+    // Consent Modal Elements
+    const consentModal = document.getElementById('consent-modal');
+    const consentAcceptBtn = document.getElementById('consent-accept-btn');
+
+    // Check if consent was already accepted
+    const checkConsent = () => {
+        return new Promise(resolve => {
+            chrome.storage.local.get(['consentAccepted'], (result) => {
+                resolve(result.consentAccepted === true);
+            });
+        });
+    };
+
+    const saveConsent = () => {
+        return new Promise(resolve => {
+            chrome.storage.local.set({ consentAccepted: true }, resolve);
+        });
+    };
+
+    // Show consent modal if not accepted
+    const consentAccepted = await checkConsent();
+    if (!consentAccepted) {
+        consentModal.style.display = 'flex';
+        
+        // Setup language selector in consent modal
+        const consentLangSelector = document.getElementById('consent-language-selector');
+        consentLangSelector.value = I18n.currentLanguage;
+        consentLangSelector.addEventListener('change', async (e) => {
+            await I18n.setLanguage(e.target.value);
+        });
+        
+        // Wait for user to accept before proceeding
+        await new Promise(resolve => {
+            consentAcceptBtn.addEventListener('click', async () => {
+                await saveConsent();
+                consentModal.style.display = 'none';
+                resolve();
+            });
+        });
+    }
+
     // PIN Lock Elements
     const pinLock = document.getElementById('pin-lock');
     const mainContent = document.getElementById('main-content');
