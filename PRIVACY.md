@@ -1,10 +1,19 @@
 # Privacy Policy for Thai TM30 Helper
 
-**Last updated:** December 26, 2025
+**Last updated:** December 29, 2025
 
 ## Overview
 
-Thai TM30 Helper is a browser extension that helps users auto-fill the Thai Immigration TM30 form. We are committed to protecting your privacy.
+Thai TM30 Helper is a browser extension that helps users auto-fill the Thai Immigration TM30 form. We are committed to protecting your privacy and being transparent about data handling.
+
+## Data Controller Status
+
+**The developer of this extension is NOT a Data Controller or Data Processor.**
+
+Under the Personal Data Protection Act (PDPA) B.E. 2562 (2019) of Thailand and similar data protection laws:
+- The **user** who enters personal data is the Data Controller
+- The developer has no access to, control over, or responsibility for personal data entered by users
+- All data processing decisions are made by the user, not the developer
 
 ## Data Collection
 
@@ -19,6 +28,7 @@ We do not:
 - Share data with third parties
 - Use analytics or tracking services
 - Store any data outside your browser
+- Have any mechanism to access user data
 
 ## Permissions
 
@@ -35,9 +45,28 @@ Your data is stored locally in your browser's encrypted storage. Only you have a
 ### PIN Protection
 
 The optional PIN feature provides an additional layer of security:
-- PINs are stored as SHA-256 hashes, never in plain text
+- PINs are stored as SHA-256 hashes with salt, never in plain text
 - Brute-force protection limits incorrect attempts
 - Session timeout automatically locks access after inactivity
+- All data is deleted after maximum failed attempts
+
+## User Responsibility
+
+As the Data Controller, you are responsible for:
+- Ensuring lawful basis for processing personal data under PDPA
+- Obtaining necessary consent from data subjects (guests, tenants)
+- Complying with all applicable data protection laws
+- Securely managing access to your device and browser
+
+## PDPA Compliance (Thailand)
+
+If you operate in Thailand, please ensure you comply with PDPA requirements including:
+- Having a lawful basis for processing personal data
+- Providing appropriate privacy notices to data subjects
+- Implementing appropriate security measures
+- Respecting data subject rights
+
+For more information, see [DISCLAIMER.md](DISCLAIMER.md).
 
 ## Changes to This Policy
 

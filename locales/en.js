@@ -86,5 +86,18 @@ const LOCALE_EN = {
     "options.security.timeout.5m": "5 minutes",
     "options.security.timeout.10m": "10 minutes",
     "options.madeBy": "Made by",
-    "options.withLove": "with"
+    "options.withLove": "with",
+
+    // Consent modal
+    "consent.title": "Terms of Use",
+    "consent.intro": "Before using Thai TM30 Helper, please review and accept the following terms:",
+    "consent.point1.title": "You are the Data Controller",
+    "consent.point1.text": "All personal data you enter is stored locally on your device. You are responsible for the lawful processing of this data under PDPA and applicable laws.",
+    "consent.point2.title": "Your Responsibility",
+    "consent.point2.text": "You must have a valid legal basis (such as consent) for processing personal data of guests, tenants, or other third parties.",
+    "consent.point3.title": "Developer Disclaimer",
+    "consent.point3.text": "The developer does not collect, store, or have access to any data you enter. The developer is not liable for any misuse or PDPA violations.",
+    "consent.footer": "By clicking \"I Agree\" you confirm that you have read, understood, and accept these terms.",
+    "consent.accept": "I Agree",
+    "consent.viewFull": "View full Terms of Use"
 };
