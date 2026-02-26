@@ -47,6 +47,7 @@ const LOCALE_TH = {
     "popup.editProfile": "แก้ไขโปรไฟล์",
     "popup.error.refresh": "ข้อผิดพลาด: กรุณารีเฟรชหน้าแบบฟอร์ม TM30 เพื่อเปิดใช้งานส่วนขยาย",
     "popup.error.wrongUrl": "กรุณาไปที่ https://tm30.immigration.go.th/tm30/#/external/ifa/add แล้วคลิกที่ชื่อบุคคลอีกครั้งเพื่อกรอกข้อมูล",
+    "popup.leaveReview": "⭐ ให้คะแนนรีวิว",
 
     // PIN
     "pin.title": "ใส่รหัส PIN",

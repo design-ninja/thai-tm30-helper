@@ -169,4 +169,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         e.preventDefault();
         chrome.runtime.openOptionsPage();
     });
+
+    // Footer links
+    document.getElementById('leave-review').addEventListener('click', () => {
+        chrome.tabs.create({ url: 'https://chromewebstore.google.com/detail/thai-tm30-helper/dodmpjhindfijnojfiikocaklabohlac/reviews' });
+    });
+
+    document.getElementById('buy-coffee').addEventListener('click', () => {
+        chrome.tabs.create({ url: 'https://www.buymeacoffee.com/design_ninja' });
+    });
+
+    document.getElementById('author-link').addEventListener('click', (e) => {
+        e.preventDefault();
+        chrome.tabs.create({ url: 'https://lirik.pro/en' });
+    });
 });
