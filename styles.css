@@ -18,6 +18,12 @@
     --danger: #ef4444;
     --danger-bg: #fee2e2;
     --danger-bg-hover: #fecaca;
+    --success-bg: #dcfce7;
+    --success-text: #166534;
+    --hover-bg: #f0f7ff;
+    --edit-text: #0369a1;
+    --focus-ring: rgba(26, 115, 231, 0.1);
+    --input-bg: #ffffff;
     --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
@@ -112,7 +118,7 @@ body.Popup {
 }
 
 .Popup__PersonItem:hover {
-    background: #f0f7ff;
+    background: var(--hover-bg);
 }
 
 .Popup__PersonInfo {
@@ -147,7 +153,7 @@ body.Popup {
 }
 
 .Popup__BtnEdit:hover {
-    background: #f0f7ff;
+    background: var(--hover-bg);
     opacity: 1;
     color: var(--primary);
 }
@@ -309,8 +315,8 @@ body.Options {
 }
 
 .Options__Badge_enabled {
-    background: #dcfce7;
-    color: #166534;
+    background: var(--success-bg);
+    color: var(--success-text);
 }
 
 .Options__Badge_disabled {
@@ -366,13 +372,15 @@ body.Options {
     font-size: 1rem;
     transition: all 0.2s;
     width: 100%;
+    background-color: var(--input-bg);
+    color: var(--text);
 }
 
 .Options__Input:focus,
 .Options__Select:focus {
     outline: none;
     border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(26, 115, 231, 0.1);
+    box-shadow: 0 0 0 3px var(--focus-ring);
 }
 
 .Options__Select {
@@ -457,7 +465,7 @@ body.Options {
 
 .Options__BtnEdit {
     background: var(--primary-light);
-    color: #0369a1;
+    color: var(--edit-text);
     border: none;
     padding: 8px 12px;
     border-radius: 6px;
@@ -603,7 +611,7 @@ body.Options {
 }
 
 .Options__SettingsValue_success {
-    color: var(--success);
+    color: var(--success-text);
 }
 
 .Options__SettingsValue_disabled {
@@ -732,8 +740,8 @@ select.Options__Select_auto {
 }
 
 .Options__SecurityStatus_enabled {
-    background: #dcfce7;
-    color: #166534;
+    background: var(--success-bg);
+    color: var(--success-text);
 }
 
 .Options__SecurityStatus_disabled {
@@ -788,12 +796,14 @@ select.Options__Select_auto {
     text-align: center;
     transition: all 0.2s;
     -webkit-text-security: disc;
+    background-color: var(--input-bg);
+    color: var(--text);
 }
 
 .PinDigits__Input:focus {
     outline: none;
     border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(26, 115, 231, 0.1);
+    box-shadow: 0 0 0 3px var(--focus-ring);
 }
 
 .PinDigits__Input_filled {
@@ -945,4 +955,58 @@ select.Options__Select_auto {
 .ConsentModal__ViewFull:hover {
     color: var(--primary);
     text-decoration: underline;
+}
+
+/* ============================================
+   DARK THEME (auto-switch by system preference)
+   ============================================ */
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --primary: #1a73e7;
+        --primary-hover: #1557b0;
+        --primary-light: #1a2a4a;
+        --primary-light-hover: #243760;
+        --heading: #f1f1f1;
+        --bg: #111111;
+        --card-bg: #1c1c1c;
+        --text: #e5e5e5;
+        --text-light: #a3a3a3;
+        --border: #444444;
+        --border-dashed: #555555;
+        --danger: #f87171;
+        --danger-bg: #351111;
+        --danger-bg-hover: #451a1a;
+        --shadow: 0 1px 3px rgba(0, 0, 0, 0.2), 0 4px 12px rgba(0, 0, 0, 0.25), 0 8px 24px rgba(0, 0, 0, 0.2);
+        --success-bg: #14281a;
+        --success-text: #86efac;
+        --hover-bg: #262626;
+        --edit-text: #7dd3fc;
+        --focus-ring: rgba(74, 154, 245, 0.25);
+        --input-bg: #1c1c1c;
+        color-scheme: dark;
+    }
+
+    /* Override select arrow SVGs for dark theme */
+    .Options__Select,
+    .Options__LanguageSelect,
+    .ConsentModal__LangSelect {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2394a3b8' d='M2 4l4 4 4-4'/%3E%3C/svg%3E");
+    }
+
+    /* Language select backgrounds */
+    .Options__LanguageSelect,
+    .ConsentModal__LangSelect {
+        background-color: var(--input-bg);
+        color: var(--text);
+    }
+
+    /* Consent modal backdrop */
+    .ConsentModal {
+        background: rgba(0, 0, 0, 0.75);
+    }
+
+    .ConsentModal__Card {
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
 }
