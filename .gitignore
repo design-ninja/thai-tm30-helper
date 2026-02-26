@@ -6,3 +6,9 @@ Thumbs.db
 .agent/
 .gemini/
 *.log
+
+# Build output
+dist/
+
+# Dependencies
+node_modules/

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Thai TM30 Helper",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Auto-filler for Thai TM30 Notification of Residence for Foreigners form",
   "permissions": [
     "storage",
@@ -27,7 +27,7 @@
   "content_scripts": [
     {
       "matches": ["https://tm30.immigration.go.th/*"],
-      "js": ["content.js"],
+      "js": ["scripts/content/index.js"],
       "run_at": "document_end"
     }
   ]
