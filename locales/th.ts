@@ -55,10 +55,11 @@ export const locale: Record<string, string> = {
   "popup.error.wrongUrl":
     "กรุณาไปที่ https://tm30.immigration.go.th/tm30/#/external/ifa/add แล้วคลิกที่ชื่อบุคคลอีกครั้งเพื่อกรอกข้อมูล",
   "popup.leaveReview": "⭐ ให้คะแนนรีวิว",
+  "popup.buyCoffee": "☕ เลี้ยงกาแฟ",
+  "popup.madeBy": "สร้างโดย",
 
   // PIN
   "pin.title": "ใส่รหัส PIN",
-  "pin.placeholder": "ใส่รหัส PIN",
   "pin.error": "รหัส PIN ไม่ถูกต้อง",
   "pin.attemptsLeft": "เหลือ {count} ครั้ง",
   "pin.forgot": "ลืมรหัส PIN? รีเซ็ตข้อมูลทั้งหมด",
@@ -70,8 +71,6 @@ export const locale: Record<string, string> = {
   "options.security.title": "🔐 รหัส PIN",
   "options.security.description":
     "ปกป้องข้อมูลของคุณด้วยรหัส PIN",
-  "options.security.pinEnabled": "🔒 เปิดใช้งานรหัส PIN แล้ว",
-  "options.security.pinDisabled": "🔓 ยังไม่ได้ตั้งรหัส PIN",
   "options.security.newPin": "รหัส PIN ใหม่",
   "options.security.confirmPin": "ยืนยันรหัส PIN",
   "options.security.currentPin": "รหัส PIN ปัจจุบัน",
@@ -87,7 +86,6 @@ export const locale: Record<string, string> = {
   "options.security.lockTimeout": "ล็อคหลังไม่ใช้งาน",
   "options.security.badgeEnabled": "เปิดใช้งาน",
   "options.security.badgeNotSet": "ยังไม่ตั้ง",
-  "options.security.status": "สถานะ",
   "options.security.timeout.30s": "30 วินาที",
   "options.security.timeout.1m": "1 นาที",
   "options.security.timeout.2m": "2 นาที",

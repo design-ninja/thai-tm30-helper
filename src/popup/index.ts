@@ -83,10 +83,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     const persons = await Storage.getPersons();
 
     if (persons.length === 0) {
-      personList.innerHTML = `<div class="EmptyState">
-                ${I18n.t("popup.emptyState")}
-                <button class="EmptyState__Btn" id="add-profiles-btn">${I18n.t("popup.addProfiles")}</button>
-            </div>`;
+      personList.innerHTML = "";
+      const emptyDiv = document.createElement("div");
+      emptyDiv.className = "EmptyState";
+      emptyDiv.textContent = I18n.t("popup.emptyState");
+      const addBtn = document.createElement("button");
+      addBtn.className = "EmptyState__Btn";
+      addBtn.id = "add-profiles-btn";
+      addBtn.textContent = I18n.t("popup.addProfiles");
+      emptyDiv.appendChild(addBtn);
+      personList.appendChild(emptyDiv);
       openOptions.style.display = "none";
 
       document

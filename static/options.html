@@ -10,7 +10,7 @@
 
 <body class="Options">
     <!-- Consent Modal -->
-    <div id="consent-modal" class="ConsentModal" style="display: none;">
+    <div id="consent-modal" class="ConsentModal" role="dialog" aria-modal="true" aria-labelledby="consent-modal-title" style="display: none;">
         <div class="ConsentModal__Card">
             <div class="ConsentModal__LangSelector">
                 <select id="consent-language-selector" class="ConsentModal__LangSelect">
@@ -19,7 +19,7 @@
                 </select>
             </div>
             <div class="ConsentModal__Icon">📋</div>
-            <h2 class="ConsentModal__Title" data-i18n="consent.title">Terms of Use</h2>
+            <h2 id="consent-modal-title" class="ConsentModal__Title" data-i18n="consent.title">Terms of Use</h2>
             <p class="ConsentModal__Intro" data-i18n="consent.intro">Before using Thai TM30 Helper, please review and
                 accept the following terms:</p>
 
@@ -48,16 +48,16 @@
                 <button id="consent-accept-btn" class="ConsentModal__AcceptBtn" data-i18n="consent.accept">I
                     Agree</button>
             </div>
-            <a href="DISCLAIMER.md" target="_blank" class="ConsentModal__ViewFull" data-i18n="consent.viewFull">View
+            <a href="DISCLAIMER.md" target="_blank" rel="noopener noreferrer" class="ConsentModal__ViewFull" data-i18n="consent.viewFull">View
                 full Terms of Use</a>
         </div>
     </div>
 
     <!-- PIN Lock Screen -->
-    <div id="pin-lock" class="PinLock PinLock_fullscreen" style="display: none;">
+    <div id="pin-lock" class="PinLock PinLock_fullscreen" role="dialog" aria-modal="true" aria-labelledby="pin-lock-title" style="display: none;">
         <div class="PinLock__Card">
             <div class="PinLock__Icon">🔒</div>
-            <h3 class="PinLock__Title" data-i18n="pin.title">Enter PIN</h3>
+            <h3 id="pin-lock-title" class="PinLock__Title" data-i18n="pin.title">Enter PIN</h3>
             <div class="PinDigits PinDigits_lock" id="pin-lock-digits" role="group" aria-label="PIN code input">
                 <input type="password" class="PinDigits__Input" maxlength="1" inputmode="numeric"
                     aria-label="PIN digit 1">
@@ -68,8 +68,8 @@
                 <input type="password" class="PinDigits__Input" maxlength="1" inputmode="numeric"
                     aria-label="PIN digit 4">
             </div>
-            <p id="pin-error" class="PinLock__Error" style="display: none;" data-i18n="pin.error">Incorrect PIN</p>
-            <p id="pin-attempts" class="PinLock__Attempts" style="display: none;"></p>
+            <p id="pin-error" class="PinLock__Error" role="alert" style="display: none;" data-i18n="pin.error">Incorrect PIN</p>
+            <p id="pin-attempts" class="PinLock__Attempts" aria-live="polite" style="display: none;"></p>
             <button id="pin-reset-btn" class="PinLock__ResetBtn" style="display: none;" data-i18n="pin.forgot">Forgot
                 PIN? Reset all data</button>
         </div>
@@ -78,7 +78,7 @@
     <!-- Main Content (hidden until PIN check completes) -->
     <div id="main-content" class="Options__Container" style="display: none;">
         <header class="Options__Header">
-            <img src="icons/icon128.png" alt="Icon" class="Options__HeaderIcon">
+            <img src="icons/icon128.png" alt="" class="Options__HeaderIcon">
             <h1 class="Options__Title" data-i18n="options.header">Thai TM30 Helper</h1>
             <p class="Options__Subtitle" data-i18n="options.subtitle">Save profiles to auto-fill TM30 forms instantly
             </p>
@@ -224,7 +224,7 @@
             <!-- PIN Manage (when PIN is set) -->
             <div id="pin-manage" class="Options__SecurityBlock" style="display: none;">
                 <div class="Options__FormGroup">
-                    <label class="Options__Label" data-i18n="options.security.lockTimeout">Lock after inactivity</label>
+                    <label for="lock-timeout-select" class="Options__Label" data-i18n="options.security.lockTimeout">Lock after inactivity</label>
                     <select id="lock-timeout-select" class="Options__Select Options__Select_auto">
                         <option value="30000" data-i18n="options.security.timeout.30s">30 seconds</option>
                         <option value="60000" data-i18n="options.security.timeout.1m">1 minute</option>
@@ -247,7 +247,7 @@
 
         <footer class="Options__Footer">
             <div class="Options__FooterLeft">
-                <label class="Options__FooterLabel" data-i18n="options.language">Language</label>
+                <label for="language-selector" class="Options__FooterLabel" data-i18n="options.language">Language</label>
                 <select id="language-selector" class="Options__LanguageSelect">
                     <option value="en">English</option>
                     <option value="th">ไทย</option>
@@ -255,7 +255,7 @@
             </div>
             <div class="Options__FooterRight">
                 <span data-i18n="options.madeBy">Made by</span> <a href="https://lirik.pro/en" target="_blank"
-                    class="Options__FooterLink">lirik</a> <span data-i18n="options.withLove">with</span> 🖤
+                    rel="noopener noreferrer" class="Options__FooterLink">lirik</a> <span data-i18n="options.withLove">with</span> 🖤
             </div>
         </footer>
     </div>

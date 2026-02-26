@@ -20,16 +20,26 @@ function generateUniqueId(): string {
 }
 
 export async function getPersons(): Promise<Person[]> {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     chrome.storage.local.get(["persons"], (result) => {
+      if (chrome.runtime.lastError) {
+        reject(new Error(chrome.runtime.lastError.message));
+        return;
+      }
       resolve((result.persons as Person[]) || []);
     });
   });
 }
 
 export async function savePersons(persons: Person[]): Promise<void> {
-  return new Promise((resolve) => {
-    chrome.storage.local.set({ persons }, resolve);
+  return new Promise((resolve, reject) => {
+    chrome.storage.local.set({ persons }, () => {
+      if (chrome.runtime.lastError) {
+        reject(new Error(chrome.runtime.lastError.message));
+        return;
+      }
+      resolve();
+    });
   });
 }
 
@@ -40,7 +50,7 @@ export async function savePerson(
   const persons = await getPersons();
 
   if (existingId) {
-    const index = persons.findIndex((p) => p.id == existingId);
+    const index = persons.findIndex((p) => p.id === existingId);
     if (index !== -1) {
       persons[index] = { ...persons[index], ...person };
     }
@@ -61,5 +71,5 @@ export async function deletePerson(id: string): Promise<Person[]> {
 
 export async function getPersonById(id: string): Promise<Person | null> {
   const persons = await getPersons();
-  return persons.find((p) => p.id == id) || null;
+  return persons.find((p) => p.id === id) || null;
 }

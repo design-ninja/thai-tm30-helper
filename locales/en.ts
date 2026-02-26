@@ -56,10 +56,11 @@ export const locale: Record<string, string> = {
   "popup.error.wrongUrl":
     "Please go to https://tm30.immigration.go.th/tm30/#/external/ifa/add and click on the person again to fill in the data.",
   "popup.leaveReview": "⭐ Leave a review",
+  "popup.buyCoffee": "☕ Buy me a coffee",
+  "popup.madeBy": "Made by",
 
   // PIN
   "pin.title": "Enter PIN",
-  "pin.placeholder": "Enter PIN",
   "pin.error": "Incorrect PIN",
   "pin.attemptsLeft": "{count} attempts left",
   "pin.forgot": "Forgot PIN? Reset all data",
@@ -70,8 +71,6 @@ export const locale: Record<string, string> = {
   // Security settings
   "options.security.title": "🔐 PIN code",
   "options.security.description": "Protect your data with a PIN code",
-  "options.security.pinEnabled": "🔒 PIN code is enabled",
-  "options.security.pinDisabled": "🔓 PIN code is not set",
   "options.security.newPin": "New PIN",
   "options.security.confirmPin": "Confirm PIN",
   "options.security.currentPin": "Current PIN",
@@ -87,7 +86,6 @@ export const locale: Record<string, string> = {
   "options.security.lockTimeout": "Lock after inactivity",
   "options.security.badgeEnabled": "Enabled",
   "options.security.badgeNotSet": "Not set",
-  "options.security.status": "Status",
   "options.security.timeout.30s": "30 seconds",
   "options.security.timeout.1m": "1 minute",
   "options.security.timeout.2m": "2 minutes",

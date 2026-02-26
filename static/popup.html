@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-i18n-title="popup.header">
+<html lang="en" data-i18n-title="popup.header">
 
 <head>
     <meta charset="UTF-8">
@@ -17,18 +17,18 @@
             <input type="password" class="PinDigits__Input" maxlength="1" inputmode="numeric" aria-label="PIN digit 3">
             <input type="password" class="PinDigits__Input" maxlength="1" inputmode="numeric" aria-label="PIN digit 4">
         </div>
-        <p id="pin-error" class="PinLock__Error" style="display: none;" data-i18n="pin.error">Incorrect PIN</p>
-        <p id="pin-attempts" class="PinLock__Attempts" style="display: none;"></p>
+        <p id="pin-error" class="PinLock__Error" role="alert" style="display: none;" data-i18n="pin.error">Incorrect PIN</p>
+        <p id="pin-attempts" class="PinLock__Attempts" aria-live="polite" style="display: none;"></p>
         <button id="pin-reset-btn" class="PinLock__ResetBtn" style="display: none;" data-i18n="pin.forgot">Forgot PIN?
             Reset all data</button>
     </div>
 
     <!-- Main Content -->
     <div id="main-content">
-        <h2 class="Popup__Header">
-            <img src="icons/icon48.png" alt="Icon" class="Popup__HeaderIcon">
+        <h1 class="Popup__Header">
+            <img src="icons/icon48.png" alt="" class="Popup__HeaderIcon">
             <span data-i18n="popup.header">Thai TM30 Helper</span>
-        </h2>
+        </h1>
         <div id="person-list" class="Popup__PersonList">
             <!-- List will be injected here -->
         </div>
@@ -38,9 +38,9 @@
         <div class="Popup__BottomFooter">
             <div class="Popup__FooterGroup">
                 <button id="leave-review" class="Popup__FooterLink" type="button" data-i18n="popup.leaveReview">⭐ Leave a review</button>
-                <button id="buy-coffee" class="Popup__FooterLink" type="button">☕ Buy me a coffee</button>
+                <button id="buy-coffee" class="Popup__FooterLink" type="button" data-i18n="popup.buyCoffee">☕ Buy me a coffee</button>
             </div>
-            <span class="Popup__FooterBrand">Made by <a href="https://lirik.pro/en" id="author-link" class="Popup__FooterAuthor">lirik</a> 💚</span>
+            <span class="Popup__FooterBrand"><span data-i18n="popup.madeBy">Made by</span> <a href="https://lirik.pro/en" id="author-link" class="Popup__FooterAuthor">lirik</a> 💚</span>
         </div>
     </div>
 

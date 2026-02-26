@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400..700&display=swap');
-
 :root {
     --primary: #1a73e7;
     --primary-hover: #1557b0;
@@ -15,16 +13,16 @@
     --radius: 10px;
     --radius-lg: 16px;
     --shadow: 0 1px 3px rgba(0, 0, 0, 0.01), 0 4px 12px rgba(0, 0, 0, 0.02), 0 8px 24px rgba(0, 0, 0, 0.01);
-    --danger: #ef4444;
+    --danger: #dc2626;
     --danger-bg: #fee2e2;
     --danger-bg-hover: #fecaca;
     --success-bg: #dcfce7;
     --success-text: #166534;
     --hover-bg: #f0f7ff;
     --edit-text: #0369a1;
-    --focus-ring: rgba(26, 115, 231, 0.1);
+    --focus-ring: rgba(26, 115, 231, 0.25);
     --input-bg: #ffffff;
-    --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
 * {
@@ -232,8 +230,6 @@ body.Popup {
     opacity: 0.75;
 }
 
-/* Using .EmptyState instead */
-
 /* ============================================
    OPTIONS PAGE STYLES
    ============================================ */
@@ -385,23 +381,6 @@ body.Options {
     gap: 8px;
 }
 
-.Options__FormGroup_fullWidth {
-    grid-column: span 2;
-}
-
-.Options__FormGroup_inline {
-    flex-direction: row;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 16px;
-}
-
-.Options__Select_short {
-    width: auto;
-    min-width: 140px;
-    max-width: 358px;
-}
-
 .Options__Label {
     font-size: 0.875rem;
     font-weight: 500;
@@ -541,8 +520,6 @@ body.Options {
     background: var(--danger-bg-hover);
 }
 
-/* Using .EmptyState instead */
-
 /* ============================================
    AUTOCOMPLETE STYLES
    ============================================ */
@@ -623,49 +600,6 @@ body.Options {
     flex-wrap: wrap;
 }
 
-/* ============================================
-   SECURITY SETTINGS TABLE STYLES
-   ============================================ */
-
-.Options__SettingsTable {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-bottom: 20px;
-}
-
-.Options__SettingsRow {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 0;
-    border-bottom: 1px solid var(--border);
-}
-
-.Options__SettingsRow:last-child {
-    border-bottom: none;
-}
-
-.Options__SettingsLabel {
-    font-size: 0.95rem;
-    color: var(--text-light);
-    font-weight: 500;
-}
-
-.Options__SettingsValue {
-    font-size: 0.95rem;
-    color: var(--text);
-    font-weight: 500;
-}
-
-.Options__SettingsValue_success {
-    color: var(--success-text);
-}
-
-.Options__SettingsValue_disabled {
-    color: var(--text-light);
-}
-
 .Options__PinSetupForm {
     display: flex;
     flex-direction: column;
@@ -675,12 +609,6 @@ body.Options {
 .Options__PinSetupForm .Options__BtnPrimary {
     align-self: flex-start;
     margin-top: 8px;
-}
-
-.Options__Select_compact {
-    width: auto;
-    padding: 8px 32px 8px 12px;
-    font-size: 0.9rem;
 }
 
 select.Options__Select_auto {
@@ -743,6 +671,12 @@ select.Options__Select_auto {
     40%, 80% { transform: translateX(8px); }
 }
 
+@media (prefers-reduced-motion: reduce) {
+    .PinLock__Input_shake {
+        animation: none;
+    }
+}
+
 .PinLock__Error {
     color: var(--danger);
     font-size: 0.9rem;
@@ -778,23 +712,6 @@ select.Options__Select_auto {
 
 .Options__SecurityBlock {
     margin-top: 16px;
-}
-
-.Options__SecurityStatus {
-    font-size: 0.95rem;
-    margin-bottom: 16px;
-    padding: 12px 16px;
-    border-radius: var(--radius);
-}
-
-.Options__SecurityStatus_enabled {
-    background: var(--success-bg);
-    color: var(--success-text);
-}
-
-.Options__SecurityStatus_disabled {
-    background: var(--border);
-    color: var(--text-light);
 }
 
 .Options__SecurityActions {
@@ -1022,7 +939,7 @@ select.Options__Select_auto {
         --text-light: #a3a3a3;
         --border: #444444;
         --border-dashed: #555555;
-        --danger: #f87171;
+        --danger: #fca5a5;
         --danger-bg: #351111;
         --danger-bg-hover: #451a1a;
         --shadow: 0 1px 3px rgba(0, 0, 0, 0.2), 0 4px 12px rgba(0, 0, 0, 0.25), 0 8px 24px rgba(0, 0, 0, 0.2);

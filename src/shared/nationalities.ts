@@ -263,11 +263,6 @@ const NATIONALITY_ALIASES: Record<string, string> = {
   CAMBODIA: "KHM",
 };
 
-export function getNationalityDisplay(code: string): string {
-  const nationality = NATIONALITIES.find((n) => n.code === code);
-  return nationality ? `${nationality.code} : ${nationality.name}` : code;
-}
-
 export function searchNationalities(query: string): Nationality[] {
   if (!query || query.length < 1) return NATIONALITIES.slice(0, 10);
 

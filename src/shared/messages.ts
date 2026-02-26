@@ -5,10 +5,6 @@ export interface FillFormMessage {
   person: Person;
 }
 
-export interface FillFormResponse {
-  status: "received";
-}
-
 export function isFillFormMessage(
   message: unknown,
 ): message is FillFormMessage {

@@ -77,7 +77,7 @@ export async function verifyPin(pin: string): Promise<boolean> {
         const isValid = result.pinHash === hash;
 
         if (isValid) {
-          startSession();
+          await startSession();
           chrome.storage.local.set({ pinAttempts: 0 });
         }
         resolve(isValid);
@@ -225,8 +225,7 @@ export function setupDigitInputs(
 
     input.addEventListener("paste", (e) => {
       e.preventDefault();
-      const clipboardData = e.clipboardData || (window as any).clipboardData;
-      const paste = clipboardData.getData("text");
+      const paste = e.clipboardData?.getData("text") ?? "";
       const digits = paste.replace(/\D/g, "").slice(0, 4);
       digits.split("").forEach((digit: string, i: number) => {
         if (inputs[i]) {

@@ -520,7 +520,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (!confirm(I18n.t("options.confirm.delete"))) return;
     await Storage.deletePerson(id);
 
-    if (personIdInput.value == id) {
+    if (personIdInput.value === id) {
       resetForm();
     }
 
@@ -529,7 +529,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const renderPersons = (persons: Storage.Person[]): void => {
     if (persons.length === 0) {
-      personList.innerHTML = `<p class="EmptyState">${I18n.t("options.emptyState")}</p>`;
+      personList.innerHTML = "";
+      const emptyP = document.createElement("p");
+      emptyP.className = "EmptyState";
+      emptyP.textContent = I18n.t("options.emptyState");
+      personList.appendChild(emptyP);
       return;
     }
 

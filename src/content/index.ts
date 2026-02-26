@@ -1,43 +1,11 @@
 import { isFillFormMessage } from "../shared/messages.js";
 import type { Person } from "../shared/storage.js";
 
-console.log(
-  "%c TM30 Helper Content Script v3.0 Loaded 🫡 ",
-  "background: #333; color: #fff; padding: 2px 5px; border-radius: 3px;",
-);
-
 const MICRO_DELAY = 50;
 
 function delay(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
-
-function scanFormControls(): void {
-  const controls = Array.from(
-    document.querySelectorAll("[formcontrolname]"),
-  ).map((el) => el.getAttribute("formcontrolname"));
-  if (controls.length > 0) {
-    console.log("TM30 Helper: Detected FormControls:", controls);
-  }
-}
-
-scanFormControls();
-
-const observer = new MutationObserver((mutations) => {
-  for (const mutation of mutations) {
-    if (mutation.addedNodes.length > 0) {
-      scanFormControls();
-      break;
-    }
-  }
-});
-
-observer.observe(document.body, {
-  childList: true,
-  subtree: true,
-});
-
-window.addEventListener("popstate", scanFormControls);
 
 chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
   if (isFillFormMessage(request)) {
@@ -48,7 +16,6 @@ chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
 });
 
 async function fillTM30Form(person: Person): Promise<void> {
-  console.log("TM30 Helper: Starting instant fill for", person.firstName);
   const [d, m, y] = (person.birthDate || "").split("/");
   const [ciD, ciM, ciY] = (person.checkInDate || "").split("/");
   const [coD, coM, coY] = (person.checkOutDate || "").split("/");

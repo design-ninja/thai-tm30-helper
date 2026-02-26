@@ -1,7 +1,6 @@
 import { locale as localeEn } from "../../locales/en.js";
 import { locale as localeTh } from "../../locales/th.js";
 
-export type LocaleKey = keyof typeof localeEn;
 type LocaleMap = Record<string, string>;
 
 const locales: Record<string, LocaleMap> = {
@@ -13,6 +12,7 @@ let currentLanguage = "en";
 
 export async function init(): Promise<void> {
   currentLanguage = await getLanguage();
+  document.documentElement.lang = currentLanguage;
   applyTranslations();
 }
 
@@ -32,6 +32,7 @@ export async function setLanguage(lang: string): Promise<void> {
   currentLanguage = lang;
   return new Promise((resolve) => {
     chrome.storage.local.set({ language: lang }, () => {
+      document.documentElement.lang = lang;
       applyTranslations();
       resolve();
     });
