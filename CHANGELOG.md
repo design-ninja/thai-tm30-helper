@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.6.0] - 2026-02-26
+
+### Security
+- Extension no longer connects to Google Fonts — better privacy, fully offline
+- Safer handling of displayed content to prevent potential injection
+- Improved error handling for data storage operations
+- Secure external link handling
+
+### Added
+- Dark mode — automatically follows your system theme
+
+### Fixed
+- Improved accessibility for screen readers (dialogs, error messages, labels)
+- Better color contrast for error messages in both light and dark themes
+- Popup footer now fully translatable (EN/TH)
+- Animation respects system "reduce motion" setting
+
+### Improved
+- Faster content script — removed unnecessary background page monitoring
+- Smaller extension size — cleaned up unused files and styles
+
 ## [1.5.0] - 2025-12-29
 
 ### Added
